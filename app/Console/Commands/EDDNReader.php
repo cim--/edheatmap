@@ -102,7 +102,7 @@ class EDDNReader extends Command
 
     private function inBounds($pos) {
         for ($i=0;$i<=2;$i++) {
-            if (abs($pos) > 500) {
+            if (abs($pos[$i]) > 500) {
                 return false;
             }
         }
