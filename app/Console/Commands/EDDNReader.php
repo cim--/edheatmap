@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\System;
 use App\Event;
+use Carbon\Carbon;
 
 class EDDNReader extends Command
 {
@@ -93,6 +94,7 @@ class EDDNReader extends Command
                         }
                         $event = new Event;
                         $event->system_id = $system->id;
+                        $event->eventtime = new Carbon('now');
                         $event->save();
                     }
                 }

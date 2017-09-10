@@ -2,14 +2,35 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class HeatmapController extends Controller
 {
-    public function index() {
-        $systems = \App\System::withCount('events')->get();
+    public function index(Request $request) {
+        $timing = $request->input('t', 'week');
+        switch ($timing) {
+        case "hour":
+            $t = 3600;
+            $tdesc = "Last Hour";
+            break;
+        case "day":
+            $t = 86400;
+            $tdesc = "Last Day";
+            break;
+        default:
+        case "week":
+            $t = 86400 * 7;
+        $tdesc = "Last Week";
+        }
 
-        $systems = $systems->sortByDesc('events_count');
+        $time = new Carbon('-'.$t.' seconds');
+        
+        $getsystems = \App\System::withCount(['events' => function($q) use ($time) {
+                $q->where('eventtime', '>', $time);
+            }]);
+        
+        $systems = $getsystems->get()->sortByDesc('events_count');
         
         $systemdata = [];
         foreach ($systems as $system) {
@@ -24,7 +45,8 @@ class HeatmapController extends Controller
         
         return view('index', [
             'systemdata' => base64_encode(json_encode($systemdata)),
-            'systems' => $systems
+            'systems' => $systems,
+            'desc' => $tdesc
         ]);
     }
 }
