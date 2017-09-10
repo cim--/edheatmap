@@ -15,7 +15,7 @@ class CreateSystemsTable extends Migration
     {
         Schema::create('systems', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
+            $table->string('name')->index();
             $table->decimal('x',10,4);
             $table->decimal('y',10,4);
             $table->decimal('z',10,4);
