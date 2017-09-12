@@ -38,7 +38,7 @@ class HeatmapController extends Controller
                 'name' => $system->name,
                 'x' => $system->x,
                 'y' => $system->y,
-                'z' => $system->z,
+                'z' => -$system->z,
                 'amount' => $system->events_count
             ];
         }

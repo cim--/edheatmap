@@ -79,7 +79,7 @@ class EDDNReader extends Command
         if ($event['$schemaRef'] == "http://schemas.elite-markets.net/eddn/journal/1" || $event['$schemaRef'] == "https://eddn.edcd.io/schemas/journal/1") {
             if ($event['message']['event'] == "FSDJump") {
                 $data = $event['message'];
-                if (isset($data['FactionState'])) {
+                if (isset($data['Factions'])) {
                     // inhabited
                     if ($this->inBounds($data['StarPos'])) {
                         $system = System::where('name', $data['StarSystem'])->first();
