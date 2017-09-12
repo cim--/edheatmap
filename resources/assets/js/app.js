@@ -41,7 +41,7 @@ function initHeatmap(THREE, systemdatastr) {
 		loader.load( 'fonts/helvetiker_regular.typeface.json', function ( font ) {
 			var geometry = new THREE.TextGeometry( system.name, {
 				font: font,
-				size: 1,
+				size: 2.5,
 				height: 0.2,
 				curveSegments: 12,
 				bevelEnabled: false,
@@ -56,11 +56,13 @@ function initHeatmap(THREE, systemdatastr) {
 	}
 
 	var systemidx = {};
+
+	var geometry = new THREE.SphereGeometry( 1 );
 	
 	for (var i=0;i<systemdata.length;i++) {
 		var system = systemdata[i];
 		systemidx[system.name] = system;
-		var geometry = new THREE.SphereGeometry( Math.pow(parseFloat(system.amount)+1, 1/3) );
+
 
 		var material = new THREE.MeshLambertMaterial(
 			{
@@ -70,6 +72,7 @@ function initHeatmap(THREE, systemdatastr) {
 			}
 		);
 		var sphere = new THREE.Mesh( geometry, material );
+		sphere.scale = Math.pow(parseFloat(system.amount)+1, 1/3) / 3;
 		sphere.position.x = parseFloat(system.x);
 		sphere.position.y = parseFloat(system.y);
 		sphere.position.z = parseFloat(system.z);
