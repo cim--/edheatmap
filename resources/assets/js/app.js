@@ -57,13 +57,13 @@ function initHeatmap(THREE, systemdatastr) {
 
 	var systemidx = {};
 
-	var geometry = new THREE.SphereGeometry( 1 );
-	
 	for (var i=0;i<systemdata.length;i++) {
 		var system = systemdata[i];
 		systemidx[system.name] = system;
 
+		var geometry = new THREE.SphereGeometry( Math.pow(parseFloat(system.amount)+1, 1/3) / 3 );
 
+		
 		var material = new THREE.MeshLambertMaterial(
 			{
 				color: heatMapColour(system.amount),
@@ -72,7 +72,7 @@ function initHeatmap(THREE, systemdatastr) {
 			}
 		);
 		var sphere = new THREE.Mesh( geometry, material );
-		sphere.scale = Math.pow(parseFloat(system.amount)+1, 1/3) / 3;
+	
 		sphere.position.x = parseFloat(system.x);
 		sphere.position.y = parseFloat(system.y);
 		sphere.position.z = parseFloat(system.z);
