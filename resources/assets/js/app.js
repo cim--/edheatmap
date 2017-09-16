@@ -1,20 +1,3 @@
-function heatMapColour(amount) {
-	if (amount == 0) {
-		return 0x404040;
-	} else if (amount < 3) {
-		return 0x900000;
-	} else if (amount < 10) {
-		return 0xa05000;
-	} else if (amount < 100) {
-		return 0xb0b000;
-	} else if (amount < 250) {
-		return 0xc0c0c0;
-	} else if (amount < 1000) {
-		return 0x00d0d0;
-	} else {
-		return 0x3030f0;
-	}
-}
 
 function initHeatmap(THREE, systemdatastr) {
 	var systemdata = JSON.parse(atob(systemdatastr));
@@ -37,6 +20,8 @@ function initHeatmap(THREE, systemdatastr) {
 	renderer.setSize( width, height );
 	document.body.appendChild( renderer.domElement );
 
+	var labelMaterial = new THREE.MeshLambertMaterial( {color: 0x30d030 });
+	
 	function addLabel(sphere, system) {
 		loader.load( 'fonts/helvetiker_regular.typeface.json', function ( font ) {
 			var geometry = new THREE.TextGeometry( system.name, {
@@ -46,8 +31,7 @@ function initHeatmap(THREE, systemdatastr) {
 				curveSegments: 12,
 				bevelEnabled: false,
 			} );
-			var material = new THREE.MeshLambertMaterial( {color: 0x30d030 });
-			var name = new THREE.Mesh( geometry, material );
+			var name = new THREE.Mesh( geometry, labelMaterial );
 			name.position.x = sphere.position.x;
 			name.position.y = sphere.position.y;
 			name.position.z = sphere.position.z;
@@ -55,24 +39,60 @@ function initHeatmap(THREE, systemdatastr) {
 		} );
 	}
 
+	var starGreyMaterial = new THREE.MeshLambertMaterial(
+		{ color: 0x404040, transparent: true, opacity: 0.6 }
+	);
+	var starRedMaterial = new THREE.MeshLambertMaterial(
+		{ color: 0x900000, transparent: true, opacity: 0.6 }
+	);
+	var starOrangeMaterial = new THREE.MeshLambertMaterial(
+		{ color: 0xa05000, transparent: true, opacity: 0.6 }
+	);
+	var starYellowMaterial = new THREE.MeshLambertMaterial(
+		{ color: 0xb0b000, transparent: true, opacity: 0.6 }
+	);
+	var starWhiteMaterial = new THREE.MeshLambertMaterial(
+		{ color: 0xc0c0c0, transparent: true, opacity: 0.6 }
+	);
+	var starCyanMaterial = new THREE.MeshLambertMaterial(
+		{ color: 0x00d0d0, transparent: true, opacity: 0.6 }
+	);
+	var starBlueMaterial = new THREE.MeshLambertMaterial(
+		{ color: 0x3030f0, transparent: true, opacity: 0.6 }
+	);
+
+	var heatmapColour = function heatmapColour(amount) {
+		if (amount == 0) {
+			return starGreyMaterial;
+		} else if (amount < 3) {
+			return starRedMaterial;
+		} else if (amount < 10) {
+			return starOrangeMaterial;
+		} else if (amount < 100) {
+			return starYellowMaterial;
+		} else if (amount < 250) {
+			return starWhiteMaterial;
+		} else if (amount < 1000) {
+			return starCyanMaterial;
+		} else {
+			return starBlueMaterial;
+		}
+	}
+
+	
 	var systemidx = {};
 
+	var geometry = new THREE.OctahedronGeometry( 1 );
+	
 	for (var i=0;i<systemdata.length;i++) {
 		var system = systemdata[i];
 		systemidx[system.name] = system;
 
-		var geometry = new THREE.OctahedronGeometry( Math.pow(parseFloat(system.amount)+1, 1/3) / 3 );
+		var sphere = new THREE.Mesh( geometry, heatmapColour(system.amount) );
 
+		var size = Math.pow(parseFloat(system.amount)+1, 1/3) / 3;
+		sphere.scale.x = sphere.scale.y = sphere.scale.z = size;
 		
-		var material = new THREE.MeshLambertMaterial(
-			{
-				color: heatMapColour(system.amount),
-				transparent: true,
-				opacity: 0.6
-			}
-		);
-		var sphere = new THREE.Mesh( geometry, material );
-	
 		sphere.position.x = parseFloat(system.x);
 		sphere.position.y = parseFloat(system.y);
 		sphere.position.z = parseFloat(system.z);
