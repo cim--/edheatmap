@@ -12,7 +12,7 @@ function heatMapColour(amount) {
 	} else if (amount < 1000) {
 		return 0x00d0d0;
 	} else {
-		return 0x0000f0;
+		return 0x3030f0;
 	}
 }
 
@@ -61,7 +61,7 @@ function initHeatmap(THREE, systemdatastr) {
 		var system = systemdata[i];
 		systemidx[system.name] = system;
 
-		var geometry = new THREE.SphereGeometry( Math.pow(parseFloat(system.amount)+1, 1/3) / 3 );
+		var geometry = new THREE.OctahedronGeometry( Math.pow(parseFloat(system.amount)+1, 1/3) / 3 );
 
 		
 		var material = new THREE.MeshLambertMaterial(
