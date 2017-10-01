@@ -33,7 +33,9 @@ class HeatmapController extends Controller
         $systems = $getsystems->get()->sortByDesc('events_count');
         
         $systemdata = [];
+        $total = 0;
         foreach ($systems as $system) {
+            $total += $system->events_count;
             $systemdata[] = [
                 'name' => $system->name,
                 'x' => $system->x,
@@ -46,7 +48,8 @@ class HeatmapController extends Controller
         return view('index', [
             'systemdata' => base64_encode(json_encode($systemdata)),
             'systems' => $systems,
-            'desc' => $tdesc
+            'desc' => $tdesc,
+            'total' => $total
         ]);
     }
 }

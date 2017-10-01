@@ -18,7 +18,7 @@ function initHeatmap(THREE, systemdatastr) {
 	var loader = new THREE.FontLoader();
 	var renderer = new THREE.WebGLRenderer();
 	renderer.setSize( width, height );
-	document.body.appendChild( renderer.domElement );
+	document.getElementById('mapcontainer').appendChild( renderer.domElement );
 
 	var labelMaterial = new THREE.MeshLambertMaterial( {color: 0x30d030 });
 	
