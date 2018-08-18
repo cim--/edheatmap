@@ -12,3 +12,4 @@
 */
 
 Route::get('/', 'HeatmapController@index');
+Route::get('/history', 'HeatmapController@history');

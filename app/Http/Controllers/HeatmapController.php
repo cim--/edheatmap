@@ -52,4 +52,43 @@ class HeatmapController extends Controller
             'total' => $total
         ]);
     }
+
+    public function history() {
+        $points = \DB::select("SELECT DATE(eventtime) AS d, COUNT(*) AS c FROM events GROUP BY d ORDER BY d");
+
+        $data = [];
+        foreach ($points as $point) {
+            $data[] = [
+                'x' => $point->d,
+                'y' => $point->c
+            ];
+        }
+
+        $datasets = [
+            [
+                'label' => 'Jumps',
+                'data' => $data
+            ]
+        ];
+      
+        $chart = app()->chartjs
+            ->name("reporthistory")
+            ->type("line")
+            ->size(["height" => 600, "width"=>1000])
+            ->datasets($datasets)
+            ->options([
+                'scales' => [
+                    'xAxes' => [
+                        [
+                            'type' => 'time',
+                            'position' => 'bottom',
+                        ]
+                    ]
+                ]
+            ]);
+
+        return view('history', [
+            'chart' => $chart
+        ]);
+    }
 }
