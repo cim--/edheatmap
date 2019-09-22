@@ -85,9 +85,11 @@ class HeatmapController extends Controller
                         ]
                     ],
                     'yAxes' => [
-                        'ticks' => [
-                            'min' => 0,
-                            'beginAtZero' => true
+                        [
+                            'ticks' => [
+                                'min' => 0,
+                                'beginAtZero' => true
+                            ]
                         ]
                     ]
                 ]
