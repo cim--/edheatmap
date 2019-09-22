@@ -83,6 +83,11 @@ class HeatmapController extends Controller
                             'type' => 'time',
                             'position' => 'bottom',
                         ]
+                    ],
+                    'yAxes' => [
+                        'ticks' => [
+                            'min' => 0
+                        ]
                     ]
                 ]
             ]);
