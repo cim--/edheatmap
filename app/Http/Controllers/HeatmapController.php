@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Total;
 
 class HeatmapController extends Controller
 {
@@ -54,13 +55,13 @@ class HeatmapController extends Controller
     }
 
     public function history() {
-        $points = \DB::select("SELECT DATE(eventtime) AS d, COUNT(*) AS c FROM events GROUP BY d ORDER BY d");
+        $points = Total::orderBy('date')->get();
 
         $data = [];
         foreach ($points as $point) {
             $data[] = [
-                'x' => $point->d,
-                'y' => $point->c
+                'x' => $point->date->format("Y-m-d"),
+                'y' => $point->total
             ];
         }
 
