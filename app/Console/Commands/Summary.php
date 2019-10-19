@@ -56,7 +56,7 @@ class Summary extends Command
 
         $date->subDays(28);
         // cleanup
-        Event::whereDate('date', '<', $date)->delete();
+        Event::whereDate('eventtime', '<', $date)->delete();
     }
 
 }
