@@ -42,7 +42,7 @@ class Summary extends Command
     {
         $date = Carbon::yesterday();
 
-        $datatotals = \DB::select("SELECT DATE(eventtime) d, COUNT(*) c FROM events WHERE DATE(eventtime) < '".$date->format("Y-m-d")."'");
+        $datatotals = \DB::select("SELECT DATE(eventtime) d, COUNT(*) c FROM events WHERE DATE(eventtime) < '".$date->format("Y-m-d")."' GROUP BY d");
 
         foreach ($datatotals as $data) {
             $total = Total::firstOrNew(
