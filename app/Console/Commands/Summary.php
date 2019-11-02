@@ -40,7 +40,7 @@ class Summary extends Command
      */
     public function handle()
     {
-        $date = Carbon::yesterday();
+        $date = Carbon::today();
 
         $datatotals = \DB::select("SELECT DATE(eventtime) d, COUNT(*) c FROM events WHERE DATE(eventtime) < '".$date->format("Y-m-d")."' GROUP BY d");
 
