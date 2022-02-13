@@ -21,6 +21,6 @@
   "dependencies": {
     "chart.js": "^2.9.4",
     "moment": "^2.22.2",
-    "three": "^0.125.0"
+    "three": "^0.137.0"
   }
 }
