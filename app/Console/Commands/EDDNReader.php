@@ -95,6 +95,11 @@ class EDDNReader extends Command
                         $event = new Event;
                         $event->system_id = $system->id;
                         $event->eventtime = new Carbon('now');
+
+                        if (isset($event['header']['gameversion']) && $event['header']['gameversion'] != "") {
+                            $event->version = $event['header']['gameversion'];
+                        }
+                        
                         $event->save();
                     }
                 }

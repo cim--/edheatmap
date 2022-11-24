@@ -51,6 +51,13 @@ class Summary extends Command
 
             $total->date = $data->d;
             $total->total = $data->c;
+
+            $live = \DB::select("SELECT COUNT(*) c FROM events WHERE DATE(eventtime) = '".$data->d."' AND version LIKE '4%'");
+            $legacy = \DB::select("SELECT COUNT(*) c FROM events WHERE DATE(eventtime) = '".$data->d."' AND version LIKE '3%'");
+
+            $total->live = $live[0]->c;
+            $total->legacy = $legacy[0]->c;
+            
             $total->save();
         }
 
