@@ -80,18 +80,18 @@ class HeatmapController extends Controller
         $datasets = [
             [
                 'label' => 'Jumps',
-                'borderColor' => '#999999',
+                'borderColor' => '#dddddd',
                 'data' => $data
             ],
             [
                 'label' => 'Legacy',
-                'borderColor' => '#666699',
+                'borderColor' => '#aaaacc',
                 'backgroundColor' => 'transparent',
                 'data' => $legacy
             ],
             [
                 'label' => 'Live',
-                'borderColor' => '#669966',
+                'borderColor' => '#aaccaa',
                 'backgroundColor' => 'transparent',
                 'data' => $live
             ]
