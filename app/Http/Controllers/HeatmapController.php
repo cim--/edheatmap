@@ -58,18 +58,44 @@ class HeatmapController extends Controller
         $points = Total::orderBy('date')->get();
 
         $data = [];
+        $legacy = [];
+        $live = [];
         foreach ($points as $point) {
             $data[] = [
                 'x' => $point->date->format("Y-m-d"),
                 'y' => $point->total
             ];
+            if ($point->legacy > 0 || $point->live > 0) {
+                $legacy[] = [
+                    'x' => $point->date->format("Y-m-d"),
+                    'y' => $point->legacy
+                ];
+                $live[] = [
+                    'x' => $point->date->format("Y-m-d"),
+                    'y' => $point->live
+                ];
+            }
         }
 
         $datasets = [
             [
                 'label' => 'Jumps',
+                'borderColor' => '#999999',
                 'data' => $data
+            ],
+            [
+                'label' => 'Legacy',
+                'borderColor' => '#666699',
+                'backgroundColor' => 'transparent',
+                'data' => $legacy
+            ],
+            [
+                'label' => 'Live',
+                'borderColor' => '#669966',
+                'backgroundColor' => 'transparent',
+                'data' => $live
             ]
+
         ];
       
         $chart = app()->chartjs
