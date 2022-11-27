@@ -92,15 +92,15 @@ class EDDNReader extends Command
                             $system->z = $data['StarPos'][2];
                             $system->save();
                         }
-                        $event = new Event;
-                        $event->system_id = $system->id;
-                        $event->eventtime = new Carbon('now');
+                        $record = new Event;
+                        $record->system_id = $system->id;
+                        $record->eventtime = new Carbon('now');
 
                         if (isset($event['header']['gameversion']) && $event['header']['gameversion'] != "") {
-                            $event->version = $event['header']['gameversion'];
+                            $record->version = $event['header']['gameversion'];
                         }
                         
-                        $event->save();
+                        $record->save();
                     }
                 }
             }
