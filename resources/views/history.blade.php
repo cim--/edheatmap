@@ -10,5 +10,11 @@
 {!! $chart->render() !!}
      
 	<p>History based on data retrieved from EDDN.</p>
+
+	<form action="/history" method="get">
+	    Start: <input type="date" name="start" value="{{$start->format("Y-m-d")}}">
+	    End: <input type="date" name="end" value="{{$end->format("Y-m-d")}}">
+	    <input type="submit" value="Set Date Range">
+	</form>
   </body>
 </html>

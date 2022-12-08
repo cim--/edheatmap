@@ -54,8 +54,13 @@ class HeatmapController extends Controller
         ]);
     }
 
-    public function history() {
-        $points = Total::orderBy('date')->get();
+    public function history(Request $request) {
+        $query = Total::orderBy('date');
+        $start = Carbon::parse($request->input('start', '2013-01-01'));
+        $end = Carbon::parse($request->input('end', 'tomorrow'));
+        $query->whereDate('date', '>=', $start)
+              ->whereDate('date', '<=', $end);
+        $points = $query->get();
 
         $data = [];
         $legacy = [];
@@ -123,7 +128,9 @@ class HeatmapController extends Controller
             ]);
 
         return view('history', [
-            'chart' => $chart
+            'chart' => $chart,
+            'start' => $start,
+            'end' => $end
         ]);
     }
 }
