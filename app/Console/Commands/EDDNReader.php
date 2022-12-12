@@ -86,6 +86,11 @@ class EDDNReader extends Command
                     if ($this->inBounds($data['StarPos'])) {
                         $system = System::where('name', $data['StarSystem'])->first();
                         if (!$system) {
+                            if (!isset($data['Factions'])) {
+                                // don't create
+                                return;
+                            }
+                            
                             $this->info("New system ".$data['StarSystem']);
                             $system = new System;
                             $system->name = $data['StarSystem'];
