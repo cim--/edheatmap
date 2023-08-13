@@ -17,6 +17,9 @@ class EDDNReader extends Command
     protected $signature = 'heatmap:read';
 
     private $relay = 'tcp://eddn.edcd.io:9500';
+
+    private $curdup = [];
+    private $lastdup = [];
     
     /**
      * The console command description.
@@ -84,30 +87,33 @@ class EDDNReader extends Command
                     ) {
                     // inhabited, or if no factions, previously inhabited
                     if ($this->inBounds($data['StarPos'])) {
-                        $system = System::where('name', $data['StarSystem'])->first();
-                        if (!$system) {
-                            if (!isset($data['Factions']) || count($data['Factions']) == 0) {
-                                // don't create, but continue to use existing
-                                return;
-                            }
-                            
-                            $this->info("New system ".$data['StarSystem']);
-                            $system = new System;
-                            $system->name = $data['StarSystem'];
-                            $system->x = $data['StarPos'][0];
-                            $system->y = $data['StarPos'][1];
-                            $system->z = $data['StarPos'][2];
-                            $system->save();
-                        }
-                        $record = new Event;
-                        $record->system_id = $system->id;
-                        $record->eventtime = new Carbon('now');
 
-                        if (isset($event['header']['gameversion']) && $event['header']['gameversion'] != "") {
-                            $record->version = $event['header']['gameversion'];
-                        }
+                        if ($this->duplicateCheck($event)) {
+                            $system = System::where('name', $data['StarSystem'])->first();
+                            if (!$system) {
+                                if (!isset($data['Factions']) || count($data['Factions']) == 0) {
+                                    // don't create, but continue to use existing
+                                    return;
+                                }
+                            
+                                $this->info("New system ".$data['StarSystem']);
+                                $system = new System;
+                                $system->name = $data['StarSystem'];
+                                $system->x = $data['StarPos'][0];
+                                $system->y = $data['StarPos'][1];
+                                $system->z = $data['StarPos'][2];
+                                $system->save();
+                            }
+                            $record = new Event;
+                            $record->system_id = $system->id;
+                            $record->eventtime = new Carbon('now');
+
+                            if (isset($event['header']['gameversion']) && $event['header']['gameversion'] != "") {
+                                $record->version = $event['header']['gameversion'];
+                            }
                         
-                        $record->save();
+                            $record->save();
+                        }
                     }
                 }
             }
@@ -121,5 +127,29 @@ class EDDNReader extends Command
             }
         }
         return true;
+    }
+
+    private function duplicateCheck($event) {
+        // most cases where timestamp and starsystem match are going
+        // to be duplicates
+        
+        $hash = md5(
+            $event['message']['StarSystem'].'/'.
+            ($event['message']['timestamp']??'-').'/'.
+            ($event['message']['horizons']??'-').'/'.
+            ($event['message']['odyssey']??'-').'/'.
+            ($event['header']['gameversion']??'-')
+        );
+
+        if (isset($this->curdup[$hash]) || isset($this->lastdup[$hash])) {
+            return false;
+        } else {
+            $this->curdup[$hash] = $hash;
+            if (count($this->curdup) >= 1000) {
+                $this->lastdup = $this->curdup;
+                $this->curdup = [];
+            }
+            return true;
+        }
     }
 }
