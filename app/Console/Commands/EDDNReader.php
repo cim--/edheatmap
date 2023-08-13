@@ -83,7 +83,7 @@ class EDDNReader extends Command
             if ($event['message']['event'] == "FSDJump") {
                 $data = $event['message'];
                 if ((isset($data['Factions']) && count($data['Factions']) > 0) ||
-                    (isset($data['SystemGovernment']) && $data['SystemGovernment'] != '$government_None;')
+                    (isset($data['SystemEconomy']) && $data['SystemEconomy'] != '$economy_None;')
                     ) {
                     // inhabited, or if no factions, previously inhabited
                     if ($this->inBounds($data['StarPos'])) {
