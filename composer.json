@@ -5,11 +5,9 @@
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": ">=7.3.0",
-        "doctrine/dbal": "^3.5",
-        "fideloper/proxy": "^4.4",
-        "fx3costa/laravelchartjs": "^2.5",
-        "laravel/framework": "8.*",
+        "php": ">=8.3.0",
+        "icehouse-ventures/laravel-chartjs": "^4.0",
+        "laravel/framework": "11.*",
         "laravel/tinker": "^2.5"
     },
     "require-dev": {
