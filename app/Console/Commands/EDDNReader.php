@@ -102,8 +102,19 @@ class EDDNReader extends Command
                                 $system->x = $data['StarPos'][0];
                                 $system->y = $data['StarPos'][1];
                                 $system->z = $data['StarPos'][2];
-                                $system->save();
                             }
+                            //                            $this->line(print_r($data,true));
+                            // powerplay updates
+                            if (isset($data['ControllingPower'])) {
+                                $system->power = $data['ControllingPower'];
+                                $system->powerstate = $data['PowerplayState'];
+                            } else {
+                                $system->power = null;
+                                $system->powerstate = "None";
+                            }
+
+                            $system->save();
+                            
                             $record = new Event;
                             $record->system_id = $system->id;
                             $record->eventtime = new Carbon('now');
