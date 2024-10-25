@@ -7,7 +7,7 @@ use App\Event;
 use App\System;
 use Carbon\Carbon;
 
-class Summary extends Command
+class Powermap extends Command
 {
     // the range at which a Fortified system can support others
     const LINK_RANGE_FORTIFIED = 20;
@@ -46,13 +46,49 @@ class Summary extends Command
      */
     public function handle()
     {
-        $powers = ["Example" => "Lave"];
+        /* Temp import */
+        // $this->importSystems();
+        
+        $powers = [
+            "Aisling Duval" => "Cubeo",
+            "Archon Delaine" => "Harma",
+            "A. Lavigny-Duval" => "Kamadhenu",
+            "Denton Patreus" => "Eotienses",
+            "Edmund Mahon" => "Gateway",
+            "Felicia Winters" => "Rhea",
+            "Jerome Archer" => "Nanomam",
+            //"Zachary Hudson" => "Nanomam",
+            "Li Yong-Rui" => "Lembava",
+            "Nakato Kaine" => "Tionisla",
+            "Pranav Antal" => "Polevnic",
+            "Yuri Grom" => "Clayakarma",
+            "Zemina Torval" => "Synteini"
+        ];
         foreach ($powers as $power => $hq) {
             $this->info("Generating ".$power." from ".$hq);
             $this->makeGraphViz($power, $hq);
         }
     }
 
+    public function importSystems()
+    {
+        $systems = file("/tmp/systems.tab");
+        $c = count($systems);
+        foreach ($systems as $idx => $sysline) {
+            $data = explode("\t", trim($sysline));
+            $this->line("Processing ".$idx."/".$c.": ".$data[0]);
+            $system = System::where('name', $data[0])->firstOrNew();
+            $system->name = $data[0];
+            $system->x = $data[1];
+            $system->y = $data[2];
+            $system->z = $data[3];
+            $system->power = $data[4];
+            $system->powerstate = ($data[5] == "Exploited" ? "Exploited" : "Fortified");
+            $system->save();
+        }
+    }
+        
+    
     public function distance (System $a, System $b) {
         return sqrt(
             (($a->x - $b->x) * ($a->x - $b->x)) +
@@ -161,7 +197,22 @@ class Summary extends Command
         $output = "digraph PowerChart {\n";
         $output .= "node [fontsize=9;fontname=sansserif;]\n";
         $output .= "labelloc=t;label =\"".$power.", week ".$weekno." (generated ".$now->format("j F")." ".($now->format("Y")+self::YEAR_OFFSET).")\"\n";
-        $output .= "layout=dot; ranksep=1;\n";
+        //        $output .= "layout=dot; ranksep=1;\n";
+        // $output .= "layout=twopi;overlap=prism;outputorder=edgesfirst; splines=true;\n";
+
+        $maxvirt = 0;
+        foreach ($virtlinks as $virtlink) {
+            $output .= '"Virtual '.$virtlink[0].'" -> "'.$virtlink[1]->name.'" [style=invis];'."\n";
+            $maxvirt = max($maxvirt, $virtlink[0]);
+        }
+        for ($i = 1; $i <= $maxvirt; $i++) {
+            if ($i != 1) {
+                $output .= '"Virtual '.($i-1).'" -> "Virtual '.$i.'" [style=invis;weight=4];'."\n";
+            } else {
+                $output .= '"'.$hqname.'" -> "Virtual '.$i.'" [style=invis;weight=4];'."\n";
+            }
+            $output .= '"Virtual '.$i.'" [style=invis];'."\n";
+        }
         
         foreach ($linked as $system) {
             // define system nodes
@@ -188,7 +239,7 @@ class Summary extends Command
         }
         foreach ($links as $link) {
             // define system connectors
-            if ($this->distance($link[0], $link[1]) > self::LINK_RANGE_FORTIFIED) {
+            if ($this->distance($link[0], $link[1]) > self::LINK_RANGE_FORTIFIED && $link[0]->name != $hqname && $link[1]->name != $hqname) {
                 $output .= '"'.$link[0]->name.'" -> "'.$link[1]->name.'" [style=dashed];'."\n";
             } else {
                 $output .= '"'.$link[0]->name.'" -> "'.$link[1]->name.'";'."\n";
@@ -197,24 +248,13 @@ class Summary extends Command
         foreach ($softlinks as $softgroup) {
             foreach ($softgroup as $softlink) {
                 // define system connectors that could exist between strongholds
-                $output .= '"'.$softlink[0]->name.'" -> "'.$softlink[1]->name.'" [style=dotted;constraint=false];'."\n";
+                // not on the normal graph, too messy
+                // $output .= '"'.$softlink[0]->name.'" -> "'.$softlink[1]->name.'" [style=dotted;constraint=false];'."\n";
             }
         }
-        $maxvirt = 0;
-        foreach ($virtlinks as $virtlink) {
-            $output .= '"Virtual '.$virtlink[0].'" -> "'.$virtlink[1]->name.'" [style=invis];'."\n";
-            $maxvirt = max($maxvirt, $virtlink[0]);
-        }
-        for ($i = 1; $i <= $maxvirt; $i++) {
-            if ($i != 1) {
-                $output .= '"Virtual '.($i-1).'" -> "Virtual '.$i.'" [style=invis];'."\n";
-            } else {
-                $output .= '"'.$hqname.'" -> "Virtual '.$i.'" [style=invis];'."\n";
-            }
-            $output .= '"Virtual '.$i.'" [style=invis];'."\n";
-        }
+        
 
-        $output .= 'mapkey [shape=rect;style=filled;label="KEY\nStar: HQ\lThick edge rectangle: Stronghold\lNormal edge rectangle: Fortified\lBelow system name: supported exploited count (sole supporter count)\lShortest connections back to HQ only\lExclaves shown at approximate distance\lDotted lines indicate links which could be created to exclaves by reinforcement to Stronghold\lDashed lines indicate links requiring current Stronghold status\l"];'."\n";
+        $output .= 'mapkey [shape=rect;style=filled;label="KEY\nStar: HQ\lThick edge rectangle: Stronghold\lNormal edge rectangle: Fortified\lBelow system name: supported exploited count (sole supporter count)\lShortest connections back to HQ only\lExclaves shown at approximate distance\lDashed lines indicate links requiring current Stronghold status\l"];'."\n";
         
         $output .= "}";
         file_put_contents("/tmp/graph.gv", $output);
