@@ -7,7 +7,7 @@ use App\Event;
 use App\System;
 use Carbon\Carbon;
 
-class Powermap extends Command
+class Powerconnect extends Command
 {
     // the range at which a Fortified system can support others
     const LINK_RANGE_FORTIFIED = 20;
@@ -20,14 +20,14 @@ class Powermap extends Command
      *
      * @var string
      */
-    protected $signature = 'heatmap:powermap';
+    protected $signature = 'heatmap:powerconnect';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Make power hierarchy maps';
+    protected $description = 'Make power connectivity maps';
 
     /**
      * Create a new command instance.
@@ -57,7 +57,7 @@ class Powermap extends Command
             "Edmund Mahon" => "Gateway",
             "Felicia Winters" => "Rhea",
             "Jerome Archer" => "Nanomam",
-            //"Zachary Hudson" => "Nanomam",
+            "Zachary Hudson" => "Nanomam",
             "Li Yong-Rui" => "Lembava",
             "Nakato Kaine" => "Tionisla",
             "Pranav Antal" => "Polevnic",
@@ -111,73 +111,36 @@ class Powermap extends Command
         $weekno = $this->week($now);
 
         $links = [];
-        $virtlinks = [];
+        $hardlinks = [];
         $softlinks = [];
         $conset = 0;
-        $linked = [$hq];
+        $controls = collect([$hq])->concat($controls);
         /* Prepare graph of Fortified/Stronghold systems */
-        do {
-            $added = [];
-            
-            foreach ($controls as $cidx => $control) {
-                foreach ($linked as $node) {
-                    if ($node->powerstate == "Stronghold" || $node->name == $hqname || $control->powerstate == "Stronghold") {
-                        $range = self::LINK_RANGE_STRONGHOLD;
-                    } else {
-                        $range = self::LINK_RANGE_FORTIFIED;
-                    }
-                    if ($this->distance($node, $control) <= $range) {
-                        $added[$cidx] = $control;
-                        $links[] = [$node, $control];
-                    } elseif ($this->distance($node, $control) <= self::LINK_RANGE_STRONGHOLD) {
-                        $softlinks[$conset][$node->id."_".$control->id] = [$node, $control];
-                    }
-                }
-            }
-            if (count($added) == 0) {
-                // remove any softlinks in the current conset between already-connected systems
-                if (isset($softlinks[$conset])) {
-                    foreach ($softlinks[$conset] as $linkid => $linkdata) {
-                        list($srcid, $destid) = explode("_", $linkid);
-                        if ($controls->where('id', $destid)->count() == 0) {
-                            // it's no longer in the set, so it's been
-                            // connected some other way
-                            unset($softlinks[$conset][$linkid]);
-                        }
-                        // also ignore softlinks already in a previous conset
-                        for ($i=0;$i<$conset;$i++) {
-                            if (isset($softlinks[$i][$linkid])) {
-                                unset($softlinks[$conset][$linkid]);
-                            }
-                        }
-                    }
-                }
-                
-                // no additions, so use the nearest disconnected as
-                // the base for a new tree
-                foreach ($controls as $cidx => $control) {
-                    $added[$cidx] = $control;
-                    // link it to the right hierarchy level
-                    $band = floor($this->distance($control, $hq) / self::LINK_RANGE_FORTIFIED);
-                    $virtlinks[] = [$band, $control];
-                    break;
-                }
-                $conset++;
-            }
-            krsort($added);
-            foreach ($added as $idx => $system) {
-                $linked[] = $system;
-                $controls->forget($idx);
-            }
 
-        } while ($controls->count() > 0);
+        foreach ($controls as $cidx => $control) {
+            foreach ($controls as $cidx2 => $control2) {
+                if ($cidx2 <= $cidx) { continue; }
+                if ($control->powerstate == "Stronghold" || $control2->powerstate == "Stronghold" || $control->name == $hqname) {
+                    $range = self::LINK_RANGE_STRONGHOLD;
+                } else {
+                    $range = self::LINK_RANGE_FORTIFIED;
+                }
+
+                if ($this->distance($control2, $control) <= $range) {
+                    $links[] = [$control, $control2];
+                    $hardlinks[$control->id][$control2->id] = 1;
+                    $hardlinks[$control2->id][$control->id] = 1;
+                } 
+            }
+        }
 
         /* Prepare assessment of Exploited system connectivity */
         $celinks = [];
+        $eclinks = [];
         $singletons = [];
         foreach ($exploited as $esys) {
             $connections = 0;
-            foreach ($linked as $csys) {
+            foreach ($controls as $csys) {
                 if ($csys->powerstate == "Stronghold" || $csys->name == $hqname) {
                     $range = self::LINK_RANGE_STRONGHOLD;
                 } else {
@@ -185,11 +148,23 @@ class Powermap extends Command
                 }
                 if ($this->distance($esys, $csys) <= $range) {
                     $celinks[$csys->name][$esys->name] = 1;
+                    $eclinks[$esys->name][] = $csys;
                     $connections++;
                 }
             }
             if ($connections == 1) {
                 $singletons[$esys->name] = 1;
+            }
+        }
+
+        // set up shared exploit softlinks
+        foreach ($eclinks as $esys => $supporters) {
+            for ($i=0;$i<count($supporters)-1;$i++) {
+                for ($j=$i+1;$j<count($supporters);$j++) {
+                    if(!isset($hardlinks[$supporters[$i]->id][$supporters[$j]->id])) {
+                        $softlinks[$supporters[$i]->id."_".$supporters[$j]->id] = [$supporters[$i], $supporters[$j]];
+                    }
+                }
             }
         }
         
@@ -198,23 +173,11 @@ class Powermap extends Command
         $output .= "node [fontsize=9;fontname=sansserif;]\n";
         $output .= "labelloc=t;label =\"".$power.", week ".$weekno." (generated ".$now->format("j F")." ".($now->format("Y")+self::YEAR_OFFSET).")\"\n";
         //        $output .= "layout=dot; ranksep=1;\n";
+        $output .= "layout=neato;overlap=prism;outputorder=edgesfirst; splines=true;\n";
         // $output .= "layout=twopi;overlap=prism;outputorder=edgesfirst; splines=true;\n";
 
         $maxvirt = 0;
-        foreach ($virtlinks as $virtlink) {
-            $output .= '"Virtual '.$virtlink[0].'" -> "'.$virtlink[1]->name.'" [style=invis];'."\n";
-            $maxvirt = max($maxvirt, $virtlink[0]);
-        }
-        for ($i = 1; $i <= $maxvirt; $i++) {
-            if ($i != 1) {
-                $output .= '"Virtual '.($i-1).'" -> "Virtual '.$i.'" [style=invis;weight=4];'."\n";
-            } else {
-                $output .= '"'.$hqname.'" -> "Virtual '.$i.'" [style=invis;weight=4];'."\n";
-            }
-            $output .= '"Virtual '.$i.'" [style=invis];'."\n";
-        }
-        
-        foreach ($linked as $system) {
+        foreach ($controls as $system) {
             // define system nodes
             if (isset($celinks[$system->name])) {
                 $cecount = count($celinks[$system->name]);
@@ -229,7 +192,6 @@ class Powermap extends Command
                 $scount = 0;
             }
             $nodelabel = 'label="'.$system->name.'\n'.$cecount." (".$scount.')"';
-
             $fillcolor = "white";
             if ($scount >= 20) {
                 $fillcolor = "#ff4444";
@@ -241,6 +203,7 @@ class Powermap extends Command
                 $fillcolor = "#ddffff";
             }
             
+            
             if ($system->name == $hqname) {
                 $output .= '"'.$system->name.'" [shape=star; penwidth=4;'.$nodelabel.'];'."\n";
             } elseif ($system->powerstate == "Fortified") {
@@ -249,6 +212,13 @@ class Powermap extends Command
                 $output .= '"'.$system->name.'" [shape=rectangle;style=filled;fillcolor="'.$fillcolor.'"; penwidth=4;'.$nodelabel.'];'."\n";
             }
         }
+
+        foreach ($softlinks as $softlink) {
+            // show shared exploited systems
+            // (draw these first)
+            $output .= '"'.$softlink[0]->name.'" -> "'.$softlink[1]->name.'" [color="#bbbbbb";dir=none;constraint=false];'."\n";
+        }
+        
         foreach ($links as $link) {
             // define system connectors
             if ($this->distance($link[0], $link[1]) > self::LINK_RANGE_FORTIFIED && $link[0]->name != $hqname && $link[1]->name != $hqname) {
@@ -257,16 +227,9 @@ class Powermap extends Command
                 $output .= '"'.$link[0]->name.'" -> "'.$link[1]->name.'";'."\n";
             }
         }
-        foreach ($softlinks as $softgroup) {
-            foreach ($softgroup as $softlink) {
-                // define system connectors that could exist between strongholds
-                // not on the normal graph, too messy
-                // $output .= '"'.$softlink[0]->name.'" -> "'.$softlink[1]->name.'" [style=dotted;constraint=false];'."\n";
-            }
-        }
-        
+                
 
-        $output .= 'mapkey [shape=rect;style=filled;label="KEY\nStar: HQ\lThick edge rectangle: Stronghold\lNormal edge rectangle: Fortified\lBelow system name: supported exploited count (sole supporter count)\lOnly shortest connected routes back to HQ shown\lExclaves shown at approximate distance\lDashed lines indicate links requiring current Stronghold status\lWhite->Cyan->Blue->Pink->Red colour indicates sole-supported exploited systems\l"];'."\n";
+        $output .= 'mapkey [shape=rect;style=filled;label="KEY\nStar: HQ\lThick edge rectangle: Stronghold\lNormal edge rectangle: Fortified\lBelow system name: supported exploited count (sole supporter count)\lArrows point away from the HQ but position is not otherwise meaningful\lDashed lines indicate links requiring current Stronghold status\lLight grey lines show systems which share exploited systems\lWhite->Cyan->Blue->Pink->Red colour indicates sole-supported exploited systems\l"];'."\n";
         
         $output .= "}";
         file_put_contents("/tmp/graph.gv", $output);
@@ -274,7 +237,7 @@ class Powermap extends Command
 
         $powerfile = preg_replace("/[^A-Za-z-]/", "", $power);
         
-        \Storage::disk('public')->put($weekno."/".$powerfile.".hierarchy.png", fopen("/tmp/graph.png", "r"));
+               \Storage::disk('public')->put($weekno."/".$powerfile.".connections.png", fopen("/tmp/graph.png", "r"));
     }
     
 }
