@@ -57,7 +57,7 @@ class Powerconnect extends Command
             "Edmund Mahon" => "Gateway",
             "Felicia Winters" => "Rhea",
             "Jerome Archer" => "Nanomam",
-            "Zachary Hudson" => "Nanomam",
+            //"Zachary Hudson" => "Nanomam",
             "Li Yong-Rui" => "Lembava",
             "Nakato Kaine" => "Tionisla",
             "Pranav Antal" => "Polevnic",
