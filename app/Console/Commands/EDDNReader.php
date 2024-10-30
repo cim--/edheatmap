@@ -109,8 +109,10 @@ class EDDNReader extends Command
                                 $system->power = $data['ControllingPower'];
                                 $system->powerstate = $data['PowerplayState'];
                             } else {
-                                $system->power = null;
-                                $system->powerstate = "None";
+                                // don't blank just yet until
+                                // there's more EDDN data available
+                                //  $system->power = null;
+                                //  $system->powerstate = "None";
                             }
 
                             $system->save();
