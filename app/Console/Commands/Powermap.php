@@ -98,7 +98,7 @@ class Powermap extends Command
     }
 
     public function week(Carbon $date) {
-        return max(0, floor($date->diffInWeeks(Carbon::parse("2024-10-24"))));
+        return (int)max(0, floor($date->diffInWeeks(Carbon::parse("2024-10-24"), true)));
     }
     
     public function makeGraphViz($power, $hqname) {
