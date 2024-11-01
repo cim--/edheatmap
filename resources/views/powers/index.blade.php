@@ -32,14 +32,14 @@
 	    <tbody>
 	    @for ($i=$week ; $i>=0 ; $i--)
 		<tr>
-		    <td>{{ $week }}</td>
-		    <td>{{ Carbon\Carbon::parse("2024-10-24")->addWeeks($week)->format("j F Y") }}</td>
+		    <td>{{ $i }}</td>
+		    <td>{{ Carbon\Carbon::parse("2024-10-24")->addWeeks($i)->format("j F Y") }}</td>
 		    @foreach ($powers as $power => $home)
 			<td>
-			    @if ($week == 0 && $power == "Nakato Kaine")
+			    @if ($i == 0 && $power == "Nakato Kaine")
 				-
 			    @else
-			    <a href="{{ route('power.week', [$power, $week]) }}" title="{{ $power }} week {{ $week }}">
+			    <a href="{{ route('power.week', [$power, $i]) }}" title="{{ $power }} week {{ $i }}">
 				Show
 			    </a>
 			    @endif
