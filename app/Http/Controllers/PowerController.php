@@ -93,4 +93,42 @@ class PowerController extends Controller
             'exlist' => $exlist,
         ]);
     }
+
+    private function distance2($e, $f) {
+        return (($e->x - $f->x)**2) + (($e->y - $f->y)**2) + (($e->z - $f->z)**2);
+    }
+    
+    private function findLoose($power, $home)
+    {
+        $loose = [];
+        $exploiteds = System::where('power', $power)->where('powerstate', 'Exploited')->get();
+        $fortifieds = System::where('power', $power)->whereIn('powerstate', ['Fortified', 'Stronghold'])->get();
+        foreach ($exploiteds as $exploited) {
+            $found = false;
+            foreach ($fortifieds as $fortified) {
+                $dist = $this->distance2($exploited, $fortified);
+                if ($dist <= 400 || ($dist <= 900 && $fortified->powerstate == "Stronghold")) {
+                    $found = true;
+                    break;
+                }
+            }
+            if (!$found) {
+                $loose[] = $exploited;
+            }
+        }
+        return $loose;
+    }
+    
+    public function looseSystems()
+    {
+        $powers = \App\Util::powers();
+        $loose = [];
+        foreach ($powers as $power => $home) {
+            $loose[$power] = $this->findLoose($power, $home);
+        }
+        return view('powers.loose', [
+            'powers' => $powers,
+            'loose' => $loose
+        ]);
+    }
 }

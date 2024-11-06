@@ -5,7 +5,7 @@
   </head>
   <body>
 	<h1>Powerplay Tools</h1>
-	
+
 	<h2>System Support Report</h2>
 
 	<p>Enter the name of a Fortified or Stronghold system to see the Exploited systems it supports.</p>
@@ -18,6 +18,8 @@
 	<h2>Overall Power Maps</h2>
 
 	<p>Schematics of Power connectivity</p>
+
+	<p><a href="{{ route('powers.loose') }}">Check for loose systems</a> - these may indicate data errors.</p>
 	
 	<table>
 	    <thead>
