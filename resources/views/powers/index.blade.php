@@ -19,7 +19,7 @@
 
 	<p>Schematics of Power connectivity</p>
 
-	<p><a href="{{ route('powers.loose') }}">Check for loose systems</a> - these may indicate data errors.</p>
+	<p><a href="{{ route('power.loose') }}">Check for loose systems</a> - these may indicate data errors.</p>
 	
 	<table>
 	    <thead>
