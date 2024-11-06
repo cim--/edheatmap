@@ -10,7 +10,7 @@ use Storage;
 class PowerController extends Controller
 {
     public function week(Carbon $date) {
-        return (int)max(0, floor($date->diffInWeeks(Carbon::parse("2024-10-24"),true)));
+        return \App\Util::week($date);
     }
     
     public function index()

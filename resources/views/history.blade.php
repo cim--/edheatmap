@@ -11,6 +11,8 @@
      
 	<p>History based on data retrieved from EDDN.</p>
 
+	<p>At the moment, "Powerplay" counts pledged commanders in PP-controlled systems. Unpledged CMDRs, and pledged CMDRs in neutral/acquisition systems, don't count. This may change with later updates to the Journal.</p>
+	
 	<form action="/history" method="get">
 	    Start: <input type="date" name="start" value="{{$start->format("Y-m-d")}}">
 	    End: <input type="date" name="end" value="{{$end->format("Y-m-d")}}">

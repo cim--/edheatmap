@@ -102,27 +102,55 @@ class EDDNReader extends Command
                                 $system->x = $data['StarPos'][0];
                                 $system->y = $data['StarPos'][1];
                                 $system->z = $data['StarPos'][2];
+                                $system->save();
                             }
                             //                            $this->line(print_r($data,true));
-                            // powerplay updates
-                            if (isset($data['ControllingPower'])) {
-                                $system->power = $data['ControllingPower'];
-                                $system->powerstate = $data['PowerplayState'];
-                            } else {
-                                // don't blank just yet until
-                                // there's more EDDN data available
-                                //  $system->power = null;
-                                //  $system->powerstate = "None";
-                            }
 
-                            $system->save();
+                            if (isset($event['header']['gameversion']) && substr($event['header']['gameversion'],0,1) == 4) {
+                                /* Only consider these if the feed is
+                                 * from Live rather than Legacy */
+                                
+                                // powerplay updates
+                                $week = \App\Util::week();
+                                if (isset($data['ControllingPower'])) {
+                                    $system->power = $data['ControllingPower'];
+                                    $system->powerstate = $data['PowerplayState'];
+                                    $system->powerplayweek = $week;
+                                    $system->save();
+                                } else {
+                                    /* This could mean "no power" or it
+                                     * could mean "player not pledged */
+                                    if ($system->power && $system->powerplayweek >= $week) {
+                                        // there's been a mention of a
+                                        // power presence this week already, so
+                                        // ignore this one
+                                    } elseif ($system->powerstate == "Stronghold" && $system->powerplayweek >= $week-1) {
+                                        // can't lose a stronghold in a single week
+                                    } elseif ($system->power != null) {
+                                        // can't be sure, but accept the blanking for now
+                                        $system->power = null;
+                                        $system->powerstate = "None";
+                                        $system->powerplayweek = $week;
+                                        $system->save();
+                                        $this->line("Removed PP information for ".$system->name);
+                                    } else {
+                                        // blank to blank, so don't update
+                                        // the week number
+                                    }
+                                }
+                            }
                             
                             $record = new Event;
                             $record->system_id = $system->id;
                             $record->eventtime = new Carbon('now');
 
                             if (isset($event['header']['gameversion']) && $event['header']['gameversion'] != "") {
-                                $record->version = $event['header']['gameversion'];
+                                if ($system->power != null) {
+                                    // track proportion with PP info
+                                    $record->version = $event['header']['gameversion']."+Powerplay";
+                                } else {
+                                    $record->version = $event['header']['gameversion'];
+                                }
                             }
                         
                             $record->save();

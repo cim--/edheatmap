@@ -79,6 +79,10 @@ class HeatmapController extends Controller
                     'x' => $point->date->format("Y-m-d"),
                     'y' => $point->live
                 ];
+                $powerplay[] = [
+                    'x' => $point->date->format("Y-m-d"),
+                    'y' => $point->powerplay
+                ];
             }
         }
 
@@ -99,8 +103,13 @@ class HeatmapController extends Controller
                 'borderColor' => '#aaccaa',
                 'backgroundColor' => 'transparent',
                 'data' => $live
+            ],
+            [
+                'label' => 'Powerplay',
+                'borderColor' => '#ccaaaa',
+                'backgroundColor' => 'transparent',
+                'data' => $powerplay
             ]
-
         ];
       
         $chart = app()->chartjs
