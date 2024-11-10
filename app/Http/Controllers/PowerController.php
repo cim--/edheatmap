@@ -131,4 +131,23 @@ class PowerController extends Controller
             'loose' => $loose
         ]);
     }
+
+    public function dataAge()
+    {
+        $ages = System::groupBy('power')->groupBy('powerplayweek')->select('power', 'powerplayweek')->selectRaw("count('id') AS c")->get();
+        $table = [];
+        $week = $this->week(Carbon::now());
+        $min = System::min('powerplayweek');
+        foreach ($ages as $age) {
+            $table[$age->powerplayweek][$age->power ?? "null"] = $age->c;
+        }
+        $powers = \App\Util::powers();
+
+        return view('powers.dataage', [
+            'powers' => $powers,
+            'week' => $week,
+            'min' => $min,
+            'table' => $table
+        ]);
+    }
 }

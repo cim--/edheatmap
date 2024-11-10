@@ -1,6 +1,6 @@
 <html>
   <head>
-	<title>Elite Dangerous Powerplay Tools</title>
+	<title>Elite Dangerous Powerplay Tools - Loose System Check</title>
 	<link rel='stylesheet' href='/css/heatmap.css' type='text/css'>
   </head>
   <body>
