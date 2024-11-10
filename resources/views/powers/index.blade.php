@@ -19,7 +19,7 @@
 
 	<p>Schematics of Power connectivity</p>
 
-	<p><a href="{{ route('power.loose') }}">Check for loose systems</a> - these may indicate data errors - and <a href="{{ route('power.dataage' }}">check current data age</a>.</p>
+	<p><a href="{{ route('power.loose') }}">Check for loose systems</a> - these may indicate data errors - and <a href="{{ route('power.dataage') }}">check current data age</a>.</p>
 	
 	<table>
 	    <thead>
