@@ -18,8 +18,19 @@
 		  <th scope="col">{{ $power }}</th>
 	      @endforeach
 	      <th scope="col">No power</th>
+	      <th scope="col" class="totalcell">Total</th>
 	  </tr>
 	  </thead>
+	  <tfoot>
+	      <tr>
+		  <th scope="row" class="totalcell">TOTAL</th>
+		  @foreach ($powers as $power => $home)
+		      <td class="totalcell">{{ $ptotal[$power] ?? 0 }}</td>
+		  @endforeach
+		  <td class="totalcell">{{ $ptotal['null'] ?? 0 }}</td>
+		  <td class="totalcell">{{ App\System::count() }}</td>
+	      </tr>
+		 
 	  <tbody>
 	      @for ($w=$week;$w>=$min;$w--)
 		  <tr>
@@ -32,6 +43,7 @@
 			  <td>{{ $table[$w][$power] ?? '-' }}</td>
 		      @endforeach
 		      <td>{{ $table[$w]["null"] ?? '-' }}</td>
+		      <td class="totalcell">{{ $wtotal[$w] ?? 0 }}</td>
 		  </tr>
 	      @endfor
 	  </tbody>

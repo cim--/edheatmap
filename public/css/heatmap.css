@@ -11,3 +11,8 @@ table {
 td {
 	border: thin black solid;
 }
+
+.totalcell {
+    background: #bbb;
+    color: #300;
+}

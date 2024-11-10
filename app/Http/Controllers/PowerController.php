@@ -136,10 +136,20 @@ class PowerController extends Controller
     {
         $ages = System::groupBy('power')->groupBy('powerplayweek')->select('power', 'powerplayweek')->selectRaw("count('id') AS c")->get();
         $table = [];
+        $ptotals = [];
+        $wtotals = [];
         $week = $this->week(Carbon::now());
         $min = System::min('powerplayweek');
         foreach ($ages as $age) {
             $table[$age->powerplayweek][$age->power ?? "null"] = $age->c;
+            if (!isset($ptotals[$age->power ?? "null"])) {
+                $ptotals[$age->power ?? "null"] = 0;
+            }
+            $ptotals[$age->power ?? "null"] += $age->c;
+            if (!isset($wtotals[$age->powerplayweek])) {
+                $wtotals[$age->powerplayweek] = 0;
+            }
+            $wtotals[$age->powerplayweek] += $age->c;
         }
         $powers = \App\Util::powers();
 
@@ -147,7 +157,9 @@ class PowerController extends Controller
             'powers' => $powers,
             'week' => $week,
             'min' => $min,
-            'table' => $table
+            'table' => $table,
+            'ptotal' => $ptotals,
+            'wtotal' => $wtotals,
         ]);
     }
 }
