@@ -134,8 +134,12 @@ class EDDNReader extends Command
                                         $system->save();
                                         $this->line("Removed PP information for ".$system->name);
                                     } else {
-                                        // blank to blank, so don't update
-                                        // the week number
+                                        // blank to blank, update the
+                                        // week number as this won't
+                                        // override a switch to a
+                                        // Power
+                                        $system->powerplayweek = $week;
+                                        $system->save();
                                     }
                                 }
                             }
