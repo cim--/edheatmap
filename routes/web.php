@@ -16,6 +16,7 @@ Route::get('/history', 'HeatmapController@history');
 
 Route::get('/powers', 'PowerController@index')->name('power.index');
 Route::post('/powers/control', 'PowerController@control')->name('power.control');
+Route::get('/powers/refcard', 'PowerController@refcard')->name('power.refcard');
 Route::get('/powers/loose', 'PowerController@looseSystems')->name('power.loose');
 Route::get('/powers/dataage', 'PowerController@dataAge')->name('power.dataage');
 Route::get('/powers/week/{week}/{power}', 'PowerController@maps')->name('power.week');

@@ -162,4 +162,9 @@ class PowerController extends Controller
             'wtotal' => $wtotals,
         ]);
     }
+
+    public function refcard()
+    {
+        return view('powers.refcard');
+    }
 }

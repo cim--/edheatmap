@@ -6,6 +6,10 @@
   <body>
 	<h1>Powerplay Tools</h1>
 
+	<h2>Alternative Documentation Formats</h2>
+
+	<p><a href="{{ route('power.refcard') }}">Reference Card for Powerplay activities</a></p>
+	    
 	<h2>System Support Report</h2>
 
 	<p>Enter the name of a Fortified or Stronghold system to see the Exploited systems it supports.</p>
