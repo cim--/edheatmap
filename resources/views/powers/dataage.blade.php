@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
   <head>
 	<title>Elite Dangerous Powerplay Tools: Data age</title>
