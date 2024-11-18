@@ -13,12 +13,7 @@
 	    
 	<h2>System Support Report</h2>
 
-	<p>Enter the name of a Fortified or Stronghold system to see the Exploited systems it supports.</p>
-	
-	<form action="{{ route('power.control') }}" method="POST">
-	    @csrf
-	    <input type="text" name="system"><input type="Submit" value="Get Support Report">
-	</form>
+	<x-powercontrolform />
 
 	<h2>Overall Power Maps</h2>
 

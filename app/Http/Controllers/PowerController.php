@@ -63,9 +63,8 @@ class PowerController extends Controller
         $sysname = $request->input('system');
         $system = System::where('name', $sysname)->whereIn('powerstate', ['Stronghold', 'Fortified'])->first();
         if (!$system) {
-            return view('powers.control.bad', [
-                'sysname' => $sysname
-            ]);
+            // try a reverse lookup
+            return $this->controlReverse($request);
         }
         $power = $system->power;
 
@@ -93,6 +92,39 @@ class PowerController extends Controller
             'exlist' => $exlist,
         ]);
     }
+
+    /* Reverse lookup what supports an Exploited system or Acquisition
+     * target */
+    public function controlReverse(Request $request) {
+        $sysname = $request->input('system');
+        $system = System::where('name', $sysname)->whereNotIn('powerstate', ['Stronghold', 'Fortified'])->first();
+        if (!$system) {
+            return view('powers.control.bad', [
+                'sysname' => $sysname
+            ]);
+        }
+
+        $power = $system->power;
+        if ($power) {
+            $controls = System::where('name', '!=', $sysname)->whereIn('powerstate', ['Stronghold', 'Fortified'])->where('power', $power)->orderBy('name')->get(); 
+        } else {
+            $controls = System::where('name', '!=', $sysname)->whereIn('powerstate', ['Stronghold', 'Fortified'])->orderBy('name')->get(); 
+        }
+
+        $clist = [];
+        foreach ($controls as $csys) {
+            if ($system->distance($csys) <= $csys->range()) {
+                $clist[$csys->name] = $csys;
+            }
+        }
+
+        return view('powers.supportreverse', [
+            'power' => $power,
+            'system' => $system,
+            'clist' => $clist,
+        ]);
+    }
+    
 
     private function distance2($e, $f) {
         return (($e->x - $f->x)**2) + (($e->y - $f->y)**2) + (($e->z - $f->z)**2);

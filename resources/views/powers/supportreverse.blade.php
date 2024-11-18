@@ -9,27 +9,28 @@
 	
 	<h2>{{ $system->name }}</h2>
 
-	<p>{{ $system->powerstate }} for {{ $system->power }}</p>
+	@if ($power) 
+	    <p>{{ $system->powerstate }} for {{ $system->power }}</p>
+	@else
+	    <p>Potential Acquisition Target</p>
+	@endif
 	
 	<table>
 	    <thead>
-		<tr><th>Exploited System</th>
-		    <th>Other Supporters (Strongholds bold)</th></tr>
+		<tr>
+		    <th>Supporting System</th>
+		    <th>Power</th>
+		    <th>State</th>
+		    <th>Distance</th>
+		</tr>
 	    </thead>
 	    <tbody>
-		@foreach ($exlist as $exname => $fortlist)
+		@foreach ($clist as $cname => $csys)
 		    <tr>
-			<td>{{ $exname }}</td>
-			<td>
-			    @foreach ($fortlist as $fortsys)
-				@if ($fortsys->powerstate == "Stronghold")
-				    <strong>{{ $fortsys->name }}</strong>
-				@else
-				    {{ $fortsys->name }}
-				@endif
-				;
-			    @endforeach
-			</td>
+			<td>{{ $cname }}</td>
+			<td>{{ $csys->power }}</td>
+			<td>{{ $csys->powerstate }}</td>
+			<td>{{ number_format($csys->distance($system),2) }}</td>
 		    </tr>
 		@endforeach
 	    </tbody>
