@@ -14,6 +14,7 @@
       <h1>Powerplay Tools: Reference Card</h1>
 
       <h2>Activity Requirements</h2>
+      <p>These use the "system merits" shown on the tug-of-war display on the map. Personally-earned merits for rank are usually four times greater than these (but can have different multipliers).</p>
       <ul>
 	  <li>To start Acquisition Conflict: 35,000 merits</li>
 	  <li>To Acquire a system: 120,000 merits (including the 35,000 above)</li>
@@ -28,7 +29,12 @@
 	    <li>Friendly System: any Exploited, Fortified or Stronghold of your Power</li>
 	    <li>Target System: the system being affected</li>
 	    <li>Supporting System: a Fortified system within 20 LY of an Acquisition System, or a Stronghold system within 30 LY</li>
+	    <li>Reinforcement System: any friendly system <strong>except</strong> the capital/HQ system.</li>
+	    <li>Undermining System: any unfriendly system <strong>except</strong> the capital/HQ systems.</li>
+	    <li>Acquisition System: any neutral system within range of one of your Supporting Systems.</li>
 	</ul>
+
+
 	
 	<table id="refcard" data-paging="false">
 	    <thead>
