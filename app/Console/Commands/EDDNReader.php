@@ -82,6 +82,7 @@ class EDDNReader extends Command
         if ($event['$schemaRef'] == "http://schemas.elite-markets.net/eddn/journal/1" || $event['$schemaRef'] == "https://eddn.edcd.io/schemas/journal/1") {
             if ($event['message']['event'] == "FSDJump") {
                 $data = $event['message'];
+                $timestamp = Carbon::parse($data['timestamp']);
                 if ((isset($data['Factions']) && count($data['Factions']) > 0) ||
                     (isset($data['SystemEconomy']) && $data['SystemEconomy'] != '$economy_None;')
                     ) {
@@ -110,43 +111,48 @@ class EDDNReader extends Command
                                 /* Only consider these if the feed is
                                  * from Live rather than Legacy */
                                 
-                                // powerplay updates
-                                $week = \App\Util::week();
-                                if (isset($data['ControllingPower'])) {
-                                    $system->power = $data['ControllingPower'];
-                                    $system->powerstate = $data['PowerplayState'];
-                                    $system->powerplayweek = $week;
-                                    $system->save();
-                                } else {
-                                    /* This could mean "no power" or it
-                                     * could mean "player not pledged */
-                                    if ($system->power && $system->powerplayweek >= $week) {
-                                        // there's been a mention of a
-                                        // power presence this week already, so
-                                        // ignore this one
-                                    } elseif ($system->powerstate == "Stronghold" && $system->powerplayweek >= $week-1) {
-                                        // can't lose a stronghold in a single week
-                                    } elseif ($system->power != null) {
-                                        // can't be sure, but accept the blanking for now
-                                        $system->power = null;
-                                        $system->powerstate = "None";
+                                if (abs($timestamp->diffInMinutes()) < 10) {
+                                    // not something where out of order updates are good
+                                    // powerplay updates
+                                    $week = \App\Util::week($timestamp);
+                                    if (isset($data['ControllingPower'])) {
+                                        $system->power = $data['ControllingPower'];
+                                        $system->powerstate = $data['PowerplayState'];
                                         $system->powerplayweek = $week;
                                         $system->save();
-                                        $this->line("Removed PP information for ".$system->name);
                                     } else {
-                                        // blank to blank, update the
-                                        // week number as this won't
-                                        // override a switch to a
-                                        // Power
-                                        $system->powerplayweek = $week;
-                                        $system->save();
+                                        /* This could mean "no power" or it
+                                         * could mean "player not pledged */
+                                        if ($system->power && $system->powerplayweek >= $week) {
+                                            // there's been a mention of a
+                                            // power presence this week already, so
+                                            // ignore this one
+                                        } elseif ($system->powerstate == "Stronghold" && $system->powerplayweek >= $week-1) {
+                                            // can't lose a stronghold in a single week
+                                        } elseif ($system->power != null) {
+                                            // can't be sure, but accept the blanking for now
+                                            $system->power = null;
+                                            $system->powerstate = "None";
+                                            $system->powerplayweek = $week;
+                                            $system->save();
+                                            $this->line("Removed PP information for ".$system->name);
+                                        } else {
+                                            // blank to blank, update the
+                                            // week number as this won't
+                                            // override a switch to a
+                                            // Power
+                                            $system->powerplayweek = $week;
+                                            $system->save();
+                                        }
                                     }
+                                } else {
+                                    //                                    $this->line("Skipping historic data ".$data['timestamp']." received at ".$event['header']['gatewayTimestamp']." for Powerplay updates");
                                 }
                             }
                             
                             $record = new Event;
                             $record->system_id = $system->id;
-                            $record->eventtime = new Carbon('now');
+                            $record->eventtime = $timestamp;
 
                             if (isset($event['header']['gameversion']) && $event['header']['gameversion'] != "") {
                                 if ($system->power != null) {
