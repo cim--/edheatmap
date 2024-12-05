@@ -11,7 +11,7 @@ class Util
         if (!$date) {
             $date = Carbon::now();
         }
-        return (int)max(0, floor($date->diffInWeeks(Carbon::parse("2024-10-24 07:00"), true)));
+        return (int)max(0, floor($date->diffInWeeks(Carbon::parse("2024-10-24 07:10"), true)));
     }
 
     public static function powers()
