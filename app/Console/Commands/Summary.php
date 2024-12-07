@@ -41,8 +41,9 @@ class Summary extends Command
     public function handle()
     {
         $date = Carbon::today();
-
-        $datatotals = \DB::select("SELECT DATE(eventtime) d, COUNT(*) c FROM events WHERE DATE(eventtime) < '".$date->format("Y-m-d")."' GROUP BY d");
+        $backdate = Carbon::parse("-28 days");
+        
+        $datatotals = \DB::select("SELECT DATE(eventtime) d, COUNT(*) c FROM events WHERE DATE(eventtime) < '".$date->format("Y-m-d")."' AND DATE(eventtime) >= '".$backdate->format("Y-m-d")."' GROUP BY d");
 
         foreach ($datatotals as $data) {
             $total = Total::firstOrNew(
@@ -64,9 +65,8 @@ class Summary extends Command
             $total->save();
         }
 
-        $date->subDays(28);
         // cleanup
-        Event::whereDate('eventtime', '<', $date)->delete();
+        Event::whereDate('eventtime', '<', $backdate)->delete();
     }
 
 }
