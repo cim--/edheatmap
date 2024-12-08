@@ -7,7 +7,13 @@ graph ethos {
     node [fontname="sans-serif"; fontsize=10;]
     start=6;
     pad=1;
-    
+
+    { node [fontsize=14]
+    Social [shape=square; pos="0,0!"];
+    Combat [shape=square; pos="15,15!"];
+    Covert [shape=square; pos="0,15!"];
+    Finance [shape=square; pos="15,0!"];
+    }
     ADu [shape=record; style=filled; fillcolor="#ddffff"; label="{ | Aisling Duval | } | <A> Social | <R> Finance | <U> Social"];
     ADe [shape=record; style=filled; fillcolor="#ffffdd"; label="{ | Archon Delaine | } | <A> Combat | <R> Combat | <U> Combat"];
     ALD [shape=record; style=filled; fillcolor="#ddffff"; label="{ | Arissa Lavigny-Duval | } | <A> Social | <R> Combat | <U> Combat"];
@@ -78,5 +84,22 @@ graph ethos {
     { edge [weight = 1.5];
     JA:U -- YG:U
     }
-    
+
+    { edge [style=invis];
+    { edge [weight=5];
+    /* Strong links */
+    Social -- { ADu PA NK }
+    Finance -- { LYR FW ZT EM }
+    Combat -- { JA ADe ALD DP }
+    Covert -- { YG }
+    }
+
+    { edge [weight=2.5];
+    /* Weak links */
+    Social -- { LYR FW ALD }
+    Finance -- { ADu DP }
+    Combat -- { YG EM }
+    Covert -- { JA PA NK ZT }
+    }
+    } 
 }
