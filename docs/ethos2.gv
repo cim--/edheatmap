@@ -1,0 +1,43 @@
+graph ethos {
+	layout=fdp; K=1; 
+	/* layout=neato; edge [len=4]; */
+    rankdir=LR;
+    overlap=scale;
+    splines=true;
+    node [fontname="sans-serif"; fontsize=10;]
+    start=6;
+    pad=1;
+    
+    ADu [shape=record; style=filled; fillcolor="#ddffff"; label="{ | Aisling Duval | } | <A> Social | <R> Finance | <U> Social"];
+    ADe [shape=record; style=filled; fillcolor="#ffffdd"; label="{ | Archon Delaine | } | <A> Combat | <R> Combat | <U> Combat"];
+    ALD [shape=record; style=filled; fillcolor="#ddffff"; label="{ | Arissa Lavigny-Duval | } | <A> Social | <R> Combat | <U> Combat"];
+    DP [shape=record; style=filled; fillcolor="#ddffff"; label="{ | Denton Patreus | } | <A> Finance | <R> Combat | <U> Combat"];
+    EM [shape=record; style=filled; fillcolor="#ddffdd"; label="{ | Edmund Mahon | } | <A> Finance | <R> Finance | <U> Combat"];
+    FW [shape=record; style=filled; fillcolor="#ffdddd"; label="{ | Felicia Winters | } | <A> Social | <R> Finance | <U> Finance"];
+    JA [shape=record; style=filled; fillcolor="#ffdddd"; label="{ | Jerome Archer | } | <A> Combat | <R> Combat | <U> Covert"];
+    LYR [shape=record; style=filled; fillcolor="#ffffdd"; label="{ | Li Yong-Rui | } | <A> Social | <R> Finance | <U> Finance"];
+    NK  [shape=record; style=filled; fillcolor="#ddffdd"; label="{ | Nakato Kaine | } | <A> Social | <R> Covert | <U> Social"];
+    PA  [shape=record; style=filled; fillcolor="#ffffdd"; label="{ | Pranav Antal | } | <A> Social | <R> Covert | <U> Social"];
+    YG  [shape=record; style=filled; fillcolor="#ffffdd"; label="{ | Yuri Grom | } | <A> Covert | <R> Combat | <U> Covert"];
+    ZT [shape=record; style=filled; fillcolor="#ddffff"; label="{ | Zemina Torval | } | <A> Finance | <R> Covert | <U> Finance"];
+    
+    /* Identical */
+    NK:A -- PA:A; NK:R -- PA:R; NK:U -- PA:U;
+    LYR:A -- FW:A; LYR:R -- FW:R; LYR:U -- FW:U;
+
+    /* Same AR */
+    JA:A -- ADe:A; JA:R -- ADe:R;
+    FW:A -- ADu:A; FW:R -- ADu:R;
+    LYR:A -- ADu:A; LYR:R -- ADu:R;
+
+    /* Same AU */
+    NK:A -- ADu:A; NK:U -- ADu:U;
+    PA:A -- ADu:A; PA:U -- ADu:U;
+    DP:A -- EM:A; DP:U -- EM:U;
+    
+    /* Same RU */
+    ALD:R -- DP:R; ALD:U -- DP:U;
+    ALD:R -- ADe:R; ALD:U -- ADe:U;
+    DP:R -- ADe:R; DP:U -- ADe:U;
+    YG:R -- JA:R; YG:U -- JA:U;
+}

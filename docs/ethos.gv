@@ -1,0 +1,82 @@
+graph ethos {
+	layout=fdp; K=3; 
+	/* layout=neato; edge [len=4]; */
+    rankdir=LR;
+    overlap=scale;
+    splines=true;
+    node [fontname="sans-serif"; fontsize=10;]
+    start=6;
+    pad=1;
+    
+    ADu [shape=record; style=filled; fillcolor="#ddffff"; label="{ | Aisling Duval | } | <A> Social | <R> Finance | <U> Social"];
+    ADe [shape=record; style=filled; fillcolor="#ffffdd"; label="{ | Archon Delaine | } | <A> Combat | <R> Combat | <U> Combat"];
+    ALD [shape=record; style=filled; fillcolor="#ddffff"; label="{ | Arissa Lavigny-Duval | } | <A> Social | <R> Combat | <U> Combat"];
+    DP [shape=record; style=filled; fillcolor="#ddffff"; label="{ | Denton Patreus | } | <A> Finance | <R> Combat | <U> Combat"];
+    EM [shape=record; style=filled; fillcolor="#ddffdd"; label="{ | Edmund Mahon | } | <A> Finance | <R> Finance | <U> Combat"];
+    FW [shape=record; style=filled; fillcolor="#ffdddd"; label="{ | Felicia Winters | } | <A> Social | <R> Finance | <U> Finance"];
+    JA [shape=record; style=filled; fillcolor="#ffdddd"; label="{ | Jerome Archer | } | <A> Combat | <R> Combat | <U> Covert"];
+    LYR [shape=record; style=filled; fillcolor="#ffffdd"; label="{ | Li Yong-Rui | } | <A> Social | <R> Finance | <U> Finance"];
+    NK  [shape=record; style=filled; fillcolor="#ddffdd"; label="{ | Nakato Kaine | } | <A> Social | <R> Covert | <U> Social"];
+    PA  [shape=record; style=filled; fillcolor="#ffffdd"; label="{ | Pranav Antal | } | <A> Social | <R> Covert | <U> Social"];
+    YG  [shape=record; style=filled; fillcolor="#ffffdd"; label="{ | Yuri Grom | } | <A> Covert | <R> Combat | <U> Covert"];
+    ZT [shape=record; style=filled; fillcolor="#ddffff"; label="{ | Zemina Torval | } | <A> Finance | <R> Covert | <U> Finance"];
+    
+    /* Acquisition */
+    /* *Social* */
+    { edge [weight = 0.25];
+    ADu:A -- ALD:A -- FW:A -- LYR:A -- NK:A -- PA:A -- ADu:A
+    ADu:A -- FW:A -- NK:A -- ADu:A
+    ALD:A -- LYR:A -- PA:A -- ALD:A
+    ADu:A -- LYR:A
+    ALD:A -- NK:A
+    FW:A -- PA:A
+    }
+    /* *Finance* */
+    { edge [weight = 1];
+    DP:A -- EM:A -- ZT:A -- DP:A
+    }
+    /* *Combat* */
+    { edge [weight = 1.25];
+    ADe:A -- JA:A
+    }
+    /* *Covert* */
+
+    /* Reinforcement */
+    /* *Social* */
+    /* *Finance* */
+    { edge [weight = 1];
+    ADu:R -- EM:R -- FW:R -- LYR:R -- ADu:R
+    ADu:R -- FW:R
+    EM:R -- LYR:R
+    }
+    /* *Combat* */
+    { edge [weight = 0.75];
+    ADe:R -- ALD:R -- DP:R -- JA:R -- YG:R -- ADe:R
+    ADe:R -- DP:R -- YG:R -- ALD:R -- JA:R -- ADe:R
+    }
+    /* *Covert* */
+    { edge [weight = 1.25];
+    NK:R -- PA:R -- ZT:R -- NK:R
+    }
+
+    /* Undermining */
+    /* *Social* */
+    { edge [weight = 1.25];
+    ADu:U -- NK:U -- PA:U -- ADu:U
+    }
+    /* *Finance* */
+    { edge [weight = 1.25];
+    FW:U -- LYR:U -- ZT:U -- FW:U
+    }
+    /* *Combat* */
+    { edge [weight = 0.75];
+    ADe:U -- ALD:U -- DP:U -- EM:U -- ADe:U
+    ADe:U -- DP:U
+    ALD:U -- EM:U
+    }
+    /* *Covert* */
+    { edge [weight = 1.5];
+    JA:U -- YG:U
+    }
+    
+}
