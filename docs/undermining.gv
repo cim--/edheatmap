@@ -1,0 +1,73 @@
+graph activities {
+	layout=neato;
+	overlap=scale;
+	splines=true;
+	node [fontname="sans-serif"; fontsize=10; shape=rectangle]
+	pad=1;
+	label="Undermining Activities"
+	
+SAR [label="Search and Rescue"]
+Sal [label="Salvage"]
+Holo [label="Holoscreen Hacks"]
+PK [label="Power Kills"]
+Mega [label="Megaship Scans"] 
+/* Prof [label="High-profit Trade"] */
+/* Mine [label="Mining"] */
+/* Rare [label="Rares Trading"] */
+ODC [label="Classified Data"]
+ODAP [label="Assoc/Poli Data"]
+ODIR [label="Ind/Res Data"]
+ODUp [label="Malware Upload"]
+ODGd [label="Odyssey Goods"] 
+Sup [label="Support Missions"]
+/* Exo [label="Exobiology"]
+Exp [label="Exploration"]
+Scan [label="Scan Ships/Wakes"] */
+CC [label="Commit Crimes"]
+Bulk [label="Bulk Market Flood"] 
+
+{ /* Undermining */
+	{ /* Social */
+		edge [color="#007700"]
+		/* ADu */
+		SAR -- Bulk -- Holo -- ODAP -- SAR; SAR -- Holo; Bulk -- ODAP;
+		/* NK */
+		SAR -- Sup -- ODAP -- ODIR -- SAR; SAR -- ODAP; Sup -- ODIR;
+		/* PA */
+		Sal -- ODAP -- ODIR -- ODUp -- Sal; Sal -- ODIR; ODAP -- ODUp;
+	}
+	{ /* Finance */
+		edge [color="#005566"]
+		/* FW */
+		SAR -- Sal -- Mega -- ODC -- SAR; SAR -- Mega; Sal -- ODC;
+		/* LYR */
+		CC -- Bulk -- Holo -- ODAP -- ODIR -- CC;
+		CC -- Holo -- ODIR -- Bulk -- ODAP -- CC;
+		/* ZT */
+		Bulk -- ODAP -- ODIR -- ODUp -- Bulk; Bulk -- ODIR; ODAP -- ODUp;
+	}
+	{ /* Combat */
+		edge [color="#660000"]
+		/* ADe */
+		CC -- PK -- ODGd -- ODUp -- CC; CC -- ODGd; PK -- ODUp;
+		/* ALD */
+		PK -- ODC -- ODIR -- PK;
+		/* DP */
+		PK -- Mega -- ODC -- ODUp -- PK; PK -- ODC; Mega -- ODUp;
+		/* EM */
+		SAR -- Sal -- ODAP -- SAR;
+	}
+	{ /* Covert */
+		edge [color="#330066"]
+		/* JA */
+		CC -- Holo -- PK -- Mega -- ODUp -- CC;
+		CC -- PK -- ODUp -- Holo -- Mega -- CC;
+		/* YG */
+		CC -- PK -- Mega -- ODC -- ODUp -- CC;
+		CC -- Mega -- ODUp -- PK -- ODC -- CC;
+        }
+}
+
+
+
+}

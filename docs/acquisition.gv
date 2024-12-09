@@ -1,0 +1,70 @@
+graph activities {
+	layout=neato;
+	overlap=scale;
+	splines=true;
+	node [fontname="sans-serif"; fontsize=10; shape=rectangle]
+	pad=1;
+	label="Acquisition Activities"
+	
+BH [label="Bounty Hunting"]
+SAR [label="Search and Rescue"]
+Holo [label="Holoscreen Hacks"]
+/*PK [label="Power Kills"] */
+Mega [label="Megaship Scans"]
+Prof [label="High-profit Trade"]
+Mine [label="Mining"]
+Rare [label="Rares Trading"]
+ODC [label="Classified Data"]
+ODAP [label="Assoc/Poli Data"]
+ODIR [label="Ind/Res Data"]
+ODUp [label="Malware Upload"]
+ODGd [label="Odyssey Goods"]
+Sup [label="Support Missions"]
+/*Exo [label="Exobiology"]
+Exp [label="Exploration"]
+Scan [label="Scan Ships/Wakes"]
+CC [label="Commit Crimes"]
+Bulk [label="Bulk Market Flood"] */
+
+{ /* Acquisition */
+        { /* Social */
+		edge [color="#007700"]
+		/* ADu */
+		SAR -- Holo -- Prof -- Rare -- SAR; SAR -- Prof; Holo -- Rare;
+		/* ALD */
+		BH -- SAR -- Holo -- ODAP -- BH; BH -- Holo; SAR -- ODAP;
+		/* FW */
+		SAR -- Holo -- Sup -- SAR;
+		/* LYR */
+		Holo -- Prof -- Rare -- ODAP -- Holo; Holo -- Rare; Prof -- ODAP;
+		/* NK */
+		Holo -- Mine -- Sup -- Holo;
+		/* PA */
+		SAR -- Mega -- ODIR -- SAR;
+	}
+	{ /* Finance */
+		edge [color="#005566"]
+		/* DP */
+		BH -- Prof -- Rare -- ODIR -- BH; BH -- Rare; Prof -- ODIR;
+		/* EM */
+		Prof -- Mine -- Rare -- ODIR -- Prof; Prof -- Rare; Mine -- ODIR;
+		/* ZT */
+		Mine -- ODIR;
+	}
+	{ /* Combat */
+		edge [color="#660000"]
+		/* ADe */
+		ODC -- ODAP -- ODUp -- ODGd -- ODC; ODC -- ODUp; ODAP -- ODGd;
+		/* JA */
+		BH -- Holo -- Mega -- ODC -- BH; BH -- Mega; Holo -- ODC;
+	}
+	{ /* Covert */
+		edge [color="#330066"]
+		/* YG */
+		BH -- Mega -- ODC -- ODIR -- BH; BH -- ODC; Mega -- ODIR;
+        }
+}
+
+
+
+}

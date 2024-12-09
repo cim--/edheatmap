@@ -1,0 +1,161 @@
+graph activities {
+	layout=neato;
+	overlap=scale;
+	splines=true;
+	node [fontname="sans-serif"; fontsize=10; shape=rectangle]
+	pad=1;
+	label="All Activities"
+	
+BH [label="Bounty Hunting"]
+SAR [label="Search and Rescue"]
+Sal [label="Salvage"]
+Holo [label="Holoscreen Hacks"]
+PK [label="Power Kills"]
+Mega [label="Megaship Scans"]
+Prof [label="High-profit Trade"]
+Mine [label="Mining"]
+Rare [label="Rares Trading"]
+ODC [label="Classified Data"]
+ODAP [label="Assoc/Poli Data"]
+ODIR [label="Ind/Res Data"]
+ODUp [label="Malware Upload"]
+ODGd [label="Odyssey Goods"]
+Sup [label="Support Missions"]
+Exo [label="Exobiology"]
+Exp [label="Exploration"]
+Scan [label="Scan Ships/Wakes"]
+CC [label="Commit Crimes"]
+Bulk [label="Bulk Market Flood"] 
+
+{ /* Acquisition */
+        { /* Social */
+		edge [color="#007700"]
+		/* ADu */
+		SAR -- Holo -- Prof -- Rare -- SAR; SAR -- Prof; Holo -- Rare;
+		/* ALD */
+		BH -- SAR -- Holo -- ODAP -- BH; BH -- Holo; SAR -- ODAP;
+		/* FW */
+		SAR -- Holo -- Sup -- SAR;
+		/* LYR */
+		Holo -- Prof -- Rare -- ODAP -- Holo; Holo -- Rare; Prof -- ODAP;
+		/* NK */
+		Holo -- Mine -- Sup -- Holo;
+		/* PA */
+		SAR -- Mega -- ODIR -- SAR;
+	}
+	{ /* Finance */
+		edge [color="#007700"]
+		/* DP */
+		BH -- Prof -- Rare -- ODIR -- BH; BH -- Rare; Prof -- ODIR;
+		/* EM */
+		Prof -- Mine -- Rare -- ODIR -- Prof; Prof -- Rare; Mine -- ODIR;
+		/* ZT */
+		Mine -- ODIR;
+	}
+	{ /* Combat */
+		edge [color="#660000"]
+		/* ADe */
+		ODC -- ODAP -- ODUp -- ODGd -- ODC; ODC -- ODUp; ODAP -- ODGd;
+		/* JA */
+		BH -- Holo -- Mega -- ODC -- BH; BH -- Mega; Holo -- ODC;
+	}
+	{ /* Covert */
+		edge [color="#660000"]
+		/* YG */
+		BH -- Mega -- ODC -- ODIR -- BH; BH -- ODC; Mega -- ODIR;
+        }
+}
+
+{ /* Reinforcement */
+	{ /* Finance */
+		edge [color="#005566"]
+		/* ADu */
+		SAR -- Sup -- Exp -- Holo -- Prof -- SAR;
+		SAR -- Exp -- Prof -- Sup -- Holo -- SAR;
+		/* EM */
+		Sup -- Exp -- Sal -- Prof -- Mine -- Sup;
+		Sup -- Sal -- Mine -- Exp -- Prof -- Sup;
+		/* FW */
+		Sup -- Sal -- Scan -- Mine -- Sup; Sup -- Scan; Sal -- Mine;
+		/* LYR */
+		Exo -- Exp -- Prof -- Rare -- ODAP -- Exo;
+		Exo -- Prof -- ODAP -- Exp -- Rare -- Exo;
+	}
+	{ /* Combat */
+		edge [color="#660000"]
+		/* ADe */
+		Sal -- PK -- Scan -- Rare -- Sal; Sal -- Scan; PK -- Rare;
+		/* ALD */
+		BH -- PK -- Scan -- BH;
+		/* DP */
+		BH -- Sal -- Holo -- PK -- Scan -- BH;
+		BH -- Holo -- Scan -- Sal -- PK -- BH;
+		/* JA */
+		BH -- Sal -- Holo -- PK -- Scan -- BH;
+		BH -- Holo -- Scan -- Sal -- PK -- BH;		
+		/* YG */
+		BH -- Sal -- PK -- Scan -- ODAP -- BH;
+		BH -- PK -- ODAP -- Sal -- Scan -- BH;
+	}
+	{ /* Covert */
+		edge [color="#007700"]
+		/* NK */
+		SAR -- Sup -- Exp -- Scan -- ODC -- SAR;
+		SAR -- Exp -- ODC -- Sup -- Scan -- SAR;
+		/* PA */
+		Sup -- Exo -- Exp -- Sal -- Scan -- Mine -- Sup;
+		Sup -- Exp -- Scan -- Sup; Exo -- Sal -- Mine -- Exo;
+		Sup -- Sal; Exo -- Scan; Exp -- Mine;
+		/* ZT */
+		Exp -- Sal -- Prof -- Exp;
+        }
+}
+
+
+{ /* Undermining */
+	{ /* Social */
+		edge [color="#007700"]
+		/* ADu */
+		SAR -- Bulk -- Holo -- ODAP -- SAR; SAR -- Holo; Bulk -- ODAP;
+		/* NK */
+		SAR -- Sup -- ODAP -- ODIR -- SAR; SAR -- ODAP; Sup -- ODIR;
+		/* PA */
+		Sal -- ODAP -- ODIR -- ODUp -- Sal; Sal -- ODIR; ODAP -- ODUp;
+	}
+	{ /* Finance */
+		edge [color="#007700"]
+		/* FW */
+		SAR -- Sal -- Mega -- ODC -- SAR; SAR -- Mega; Sal -- ODC;
+		/* LYR */
+		CC -- Bulk -- Holo -- ODAP -- ODIR -- CC;
+		CC -- Holo -- ODIR -- Bulk -- ODAP -- CC;
+		/* ZT */
+		Bulk -- ODAP -- ODIR -- ODUp -- Bulk; Bulk -- ODIR; ODAP -- ODUp;
+		/* EM, no-one believes you're Combat */
+		{ edge [style=dashed; color="#660000"]
+			SAR -- Sal -- ODAP -- SAR;
+		}
+	}
+	{ /* Combat */
+		edge [color="#660000"]
+		/* ADe */
+		CC -- PK -- ODGd -- ODUp -- CC; CC -- ODGd; PK -- ODUp;
+		/* ALD */
+		PK -- ODC -- ODIR -- PK;
+		/* DP */
+		PK -- Mega -- ODC -- ODUp -- PK; PK -- ODC; Mega -- ODUp;
+		
+	}
+	{ /* Covert */
+		edge [color="#660000"]
+		/* JA */
+		CC -- Holo -- PK -- Mega -- ODUp -- CC;
+		CC -- PK -- ODUp -- Holo -- Mega -- CC;
+		/* YG */
+		CC -- PK -- Mega -- ODC -- ODUp -- CC;
+		CC -- Mega -- ODUp -- PK -- ODC -- CC;
+        }
+}
+
+
+}
