@@ -50,6 +50,13 @@
 	  </tbody>
       </table>
 
+      <h2>Oldest systems, by Power</h2>
+
+      <ul>
+      @foreach ($oldest as $power => $systems)
+	  <li><strong>{{ $power == "null" ? "None" : $power }}</strong>: {{ $systems->join("; ") }}</li>
+      @endforeach
+      </ul>
 
       
   </body>

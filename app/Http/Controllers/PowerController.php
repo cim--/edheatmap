@@ -185,6 +185,16 @@ class PowerController extends Controller
         }
         $powers = \App\Util::powers();
 
+        $oldest = [];
+        foreach ($ptotals as $power => $ignore) {
+            if ($power == "null") {
+                $oldest[$power] = System::whereNull('power')->orderBy('updated_at')->limit(10)->pluck('name');
+            } else {
+                $oldest[$power] = System::where('power', $power)->orderBy('updated_at')->limit(10)->pluck('name');
+            }
+        }
+        ksort($oldest);
+        
         return view('powers.dataage', [
             'powers' => $powers,
             'week' => $week,
@@ -192,6 +202,7 @@ class PowerController extends Controller
             'table' => $table,
             'ptotal' => $ptotals,
             'wtotal' => $wtotals,
+            'oldest' => $oldest
         ]);
     }
 
