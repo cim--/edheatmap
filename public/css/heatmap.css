@@ -16,3 +16,8 @@ td {
     background: #bbb;
     color: #300;
 }
+
+.disabled td {
+    background: #fee;
+    color: #333;
+}
