@@ -99,10 +99,13 @@ class EDDNReader extends Command
                             
                                 $this->info("New system ".$data['StarSystem']);
                                 $system = new System;
+                                $system->id = System::max('id')+1;
                                 $system->name = $data['StarSystem'];
                                 $system->x = $data['StarPos'][0];
                                 $system->y = $data['StarPos'][1];
                                 $system->z = $data['StarPos'][2];
+                                // set a default PP week
+                                $system->powerplayweek = \App\Util::week($timestamp);
                                 $system->save();
                             }
                             //                            $this->line(print_r($data,true));
@@ -164,6 +167,21 @@ class EDDNReader extends Command
                             }
                         
                             $record->save();
+                        }
+                    }
+                } else {
+                    // not inhabited
+                    if (isset($event['header']['gameversion']) && substr($event['header']['gameversion'],0,1) == 4) {
+                        // only consider Live data
+                        if (abs($timestamp->diffInMinutes()) < 10) {
+                            // only consider recent data
+                            $system = System::where('name', $data['StarSystem'])->first();
+                            if ($system) {
+                                $this->error("System ".$system->name." in data but appears uninhabited now.");
+                                // mark for manual investigation
+$system->powerplayweek = 0;
+$system->save();
+                            }
                         }
                     }
                 }
