@@ -65,6 +65,8 @@ class HeatmapController extends Controller
         $data = [];
         $legacy = [];
         $live = [];
+        $powerplay = [];
+        $original = [];
         foreach ($points as $point) {
             $data[] = [
                 'x' => $point->date->format("Y-m-d"),
@@ -82,6 +84,10 @@ class HeatmapController extends Controller
                 $powerplay[] = [
                     'x' => $point->date->format("Y-m-d"),
                     'y' => $point->powerplay
+                ];
+                $original[] = [
+                    'x' => $point->date->format("Y-m-d"),
+                    'y' => $point->originalbubble
                 ];
             }
         }
@@ -109,7 +115,13 @@ class HeatmapController extends Controller
                 'borderColor' => '#ccaaaa',
                 'backgroundColor' => 'transparent',
                 'data' => $powerplay
-            ]
+            ],
+            [
+                'label' => 'Original Bubble',
+                'borderColor' => '#aacccc',
+                'backgroundColor' => 'transparent',
+                'data' => $original
+            ],
         ];
       
         $chart = app()->chartjs

@@ -57,10 +57,13 @@ class Summary extends Command
             $legacy = \DB::select("SELECT COUNT(*) c FROM events WHERE DATE(eventtime) = '".$data->d."' AND (version LIKE '3%' OR version LIKE 'CAPI-legacy-%')");
 
             $powerplay = \DB::select("SELECT COUNT(*) c FROM events WHERE DATE(eventtime) = '".$data->d."' AND (version LIKE '4%' OR version LIKE 'CAPI-live-%' OR (version LIKE 'CAPI-%' AND version NOT LIKE 'CAPI-legacy-%')) AND version LIKE '%+Powerplay'");
+
+            $originalbubble = \DB::select("SELECT COUNT(*) c FROM events e INNER JOIN systems s ON (e.system_id = s.id) WHERE DATE(eventtime) = '".$data->d."' AND (version LIKE '4%' OR version LIKE 'CAPI-live-%' OR (version LIKE 'CAPI-%' AND version NOT LIKE 'CAPI-legacy-%')) AND s.created_at < '2025-02-23'");
             
             $total->live = $live[0]->c;
             $total->legacy = $legacy[0]->c;
             $total->powerplay = $powerplay[0]->c;
+            $total->originalbubble = $originalbubble[0]->c;
             
             $total->save();
         }
