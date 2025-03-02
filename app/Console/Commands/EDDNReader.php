@@ -91,6 +91,7 @@ class EDDNReader extends Command
 
                         if ($this->duplicateCheck($event)) {
                             $system = System::where('name', $data['StarSystem'])->first();
+
                             if (!$system) {
                                 if (!isset($data['Factions']) || count($data['Factions']) == 0) {
                                     // don't create, but continue to use existing
@@ -105,6 +106,7 @@ class EDDNReader extends Command
                                 $system->y = $data['StarPos'][1];
                                 $system->z = $data['StarPos'][2];
                                 $system->population = $data['Population'];
+                                $system->faction = $data['SystemFaction']['Name'] ?? "";
                                 // set a default PP week
                                 $system->powerplayweek = \App\Util::week($timestamp);
                                 $system->save();
@@ -113,6 +115,10 @@ class EDDNReader extends Command
                                 $system->save();
                             }
                             //                            $this->line(print_r($data,true));
+                            if ($system->faction != ($data['SystemFaction']['Name'] ?? "")) {
+                                $system->faction = $data['SystemFaction']['Name'] ?? "";
+                                $system->save();
+                            }
 
                             if (isset($event['header']['gameversion']) && substr($event['header']['gameversion'],0,1) == 4) {
                                 /* Only consider these if the feed is
