@@ -166,7 +166,7 @@ class PowerController extends Controller
 
     public function dataAge()
     {
-        $ages = System::groupBy('power')->groupBy('powerplayweek')->select('power', 'powerplayweek')->selectRaw("count('id') AS c")->get();
+        $ages = System::where('population', '>', 0)->groupBy('power')->groupBy('powerplayweek')->select('power', 'powerplayweek')->selectRaw("count('id') AS c")->get();
         $table = [];
         $ptotals = [];
         $wtotals = [];
@@ -194,6 +194,9 @@ class PowerController extends Controller
             }
         }
         ksort($oldest);
+
+        $claims = System::where('population', 0)->count();
+        $total = System::count();
         
         return view('powers.dataage', [
             'powers' => $powers,
@@ -202,7 +205,9 @@ class PowerController extends Controller
             'table' => $table,
             'ptotal' => $ptotals,
             'wtotal' => $wtotals,
-            'oldest' => $oldest
+            'oldest' => $oldest,
+            'claims' => $claims,
+            'total' => $total
         ]);
     }
 

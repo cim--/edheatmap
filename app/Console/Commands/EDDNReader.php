@@ -104,8 +104,12 @@ class EDDNReader extends Command
                                 $system->x = $data['StarPos'][0];
                                 $system->y = $data['StarPos'][1];
                                 $system->z = $data['StarPos'][2];
+                                $system->population = $data['Population'];
                                 // set a default PP week
                                 $system->powerplayweek = \App\Util::week($timestamp);
+                                $system->save();
+                            } else if ($system->population != $data['Population']) {
+                                $system->population = $data['Population'];
                                 $system->save();
                             }
                             //                            $this->line(print_r($data,true));
@@ -178,9 +182,15 @@ class EDDNReader extends Command
                             $system = System::where('name', $data['StarSystem'])->first();
                             if ($system) {
                                 $this->error("System ".$system->name." in data but appears uninhabited now.");
-                                // mark for manual investigation
-$system->powerplayweek = 0;
-$system->save();
+                                if ($system->population == 0 && $system->created_at->gt("2025-02-25")) {
+                                    $system->delete();
+                                    // assume failed claim
+                                } else {
+                                    $this->error("And was previously populated...");
+                                    // mark for manual investigation
+                                    $system->powerplayweek = 0;
+                                    $system->save();
+                                }
                             }
                         }
                     }

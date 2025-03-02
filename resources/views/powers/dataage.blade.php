@@ -29,7 +29,7 @@
 		      <td class="totalcell">{{ $ptotal[$power] ?? 0 }}</td>
 		  @endforeach
 		  <td class="totalcell">{{ $ptotal['null'] ?? 0 }}</td>
-		  <td class="totalcell">{{ App\System::count() }}</td>
+		  <td class="totalcell">{{ App\System::where('population', '>', 0)->count() }}</td>
 	      </tr>
 		 
 	  <tbody>
@@ -49,6 +49,8 @@
 	      @endfor
 	  </tbody>
       </table>
+
+      <p>Plus {{ $claims }} pending claims for a total of {{ $total }} systems.</p>
 
       <h2>Oldest systems, by Power</h2>
 
