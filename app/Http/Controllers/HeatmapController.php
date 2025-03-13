@@ -26,7 +26,7 @@ class HeatmapController extends Controller
         }
 
         $mode = $request->input('m', 'traffic');
-        switch ($timing) {
+        switch ($mode) {
         case "colonisation":
             $m = 'colonisation';
             $mdesc = "Colonisation";
