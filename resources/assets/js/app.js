@@ -64,7 +64,8 @@ function initHeatmap(THREE, mode, systemdatastr) {
     
     var heatmapColour;
     if (mode == "traffic") {
-	heatmapColour = function heatmapColour(amount) {
+	heatmapColour = function heatmapColour(system) {
+	    var amount = system.amount;
 		if (amount == 0) {
 			return starGreyMaterial;
 		} else if (amount < 3) {
@@ -82,7 +83,8 @@ function initHeatmap(THREE, mode, systemdatastr) {
 		}
 	}
     } else if (mode == "colonisation") {
-	heatmapColour = function heatmapColour(amount) {
+	heatmapColour = function heatmapColour(system) {
+	    var cstate = system.cstate;
 		if (cstate == 'claim') {
 		    return starRedMaterial;
 		} else if (cstate == 'new') {
@@ -102,9 +104,9 @@ function initHeatmap(THREE, mode, systemdatastr) {
 		var system = systemdata[i];
 		systemidx[system.name] = system;
 
-		var sphere = new THREE.Mesh( geometry, heatmapColour(system.amount) );
+		var sphere = new THREE.Mesh( geometry, heatmapColour(system) );
 
-		var size = Math.pow(parseFloat(system.amount)+1, 1/3) / 3;
+	    var size = Math.pow(parseFloat(system.amount)+1, 1/3) / 3;
 		sphere.scale.x = sphere.scale.y = sphere.scale.z = size;
 		
 		sphere.position.x = parseFloat(system.x);
