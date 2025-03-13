@@ -25,6 +25,19 @@ class HeatmapController extends Controller
         $tdesc = "Last Week";
         }
 
+        $mode = $request->input('m', 'traffic');
+        switch ($timing) {
+        case "colonisation":
+            $m = 'colonisation';
+            $mdesc = "Colonisation";
+            break;
+        default:
+        case "traffic":
+            $m = 'traffic';
+            $mdesc = "System Traffic";
+            break;
+        }
+
         $time = new Carbon('-'.$t.' seconds');
         
         $getsystems = \App\System::withCount(['events' => function($q) use ($time) {
@@ -42,7 +55,9 @@ class HeatmapController extends Controller
                 'x' => $system->x,
                 'y' => $system->y,
                 'z' => -$system->z,
-                'amount' => $system->events_count
+                'amount' => $system->events_count,
+                'power' => $system->power,
+                'cstate' => $system->colonisationState()
             ];
         }
         
@@ -50,6 +65,8 @@ class HeatmapController extends Controller
             'systemdata' => base64_encode(json_encode($systemdata)),
             'systems' => $systems,
             'desc' => $tdesc,
+            'mdesc' => $mdesc,
+            'mode' => $m,
             'total' => $total
         ]);
     }

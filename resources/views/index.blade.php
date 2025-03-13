@@ -6,7 +6,15 @@
   </head>
   <body>
 	<h1>Traffic Heatmap</h1>
-    <table>
+	<table>
+	    @if ($mode == "colonisation")
+		<tr>
+		    <td></td>
+		    <td colspan="2">Red: claimed</td>
+		    <td colspan="2">Yellow: new</td>
+		    <td colspan="2">White: old</td>
+		</tr>
+	    @else
 	  <tr>
 		<td>Grey: 0</td>
 		<td>Red: 1-2</td>
@@ -16,11 +24,13 @@
 		<td>Cyan: 250-999</td>
 		<td>Blue: 1000+</td>
 	  </tr>
+	    @endif
 	  <tr>
 		<td><a href="./?t=hour">Last Hour</a></td>
 		<td><a href="./?t=day">Last Day</a></td>
 		<td><a href="./?t=week">Last Week</a></td>
-        <td colspan='2'><strong>Current</strong>: {{$desc}} ({{$total}})</td>
+		<td><a href="./?m=colonisation">Colonisation</a></td>
+		<td><strong>Current</strong>: {{$desc}} ({{$total}})</td>
 		<td colspan='2'><input id='ctrl_system' value="{{$systems->first()->name}}"><button id='ctrl_go'>Go</button></td>
 	  </tr>
        <tr>
@@ -35,10 +45,11 @@
 	 </table>
 
 	<div id='mapcontainer'>
-     <script type='text/javascript'>
-	  var systemdata = "{{ $systemdata }}";
-	  initHeatmap(THREE, systemdata);
-	 </script>
+	    <script type='text/javascript'>
+	     var systemdata = "{{ $systemdata }}";
+	     var mode = "{{ $mode }}";
+	     initHeatmap(THREE, mode, systemdata);
+	    </script>
 	</div>
 
 	<p>Heatmap based on data retrieved from EDDN. Busiest hundred systems named.</p>

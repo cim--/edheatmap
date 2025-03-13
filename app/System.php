@@ -33,5 +33,17 @@ class System extends Model
         }
         return $range;
     }
-        
+
+    public function colonisationState()
+    {
+        if ($this->created_at->lt('2025-02-25')) {
+            return "old";
+        } else {
+            if ($this->population > 0) {
+                return "new";
+            } else {
+                return "claim";
+            }
+        }
+    }
 }

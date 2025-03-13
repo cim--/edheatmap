@@ -1,5 +1,5 @@
 
-function initHeatmap(THREE, systemdatastr) {
+function initHeatmap(THREE, mode, systemdatastr) {
 	var systemdata = JSON.parse(atob(systemdatastr));
 
 	var width = 1200;
@@ -61,7 +61,10 @@ function initHeatmap(THREE, systemdatastr) {
 		{ color: 0x3030f0, transparent: true, opacity: 0.6 }
 	);
 
-	var heatmapColour = function heatmapColour(amount) {
+    
+    var heatmapColour;
+    if (mode == "traffic") {
+	heatmapColour = function heatmapColour(amount) {
 		if (amount == 0) {
 			return starGreyMaterial;
 		} else if (amount < 3) {
@@ -78,6 +81,17 @@ function initHeatmap(THREE, systemdatastr) {
 			return starBlueMaterial;
 		}
 	}
+    } else if (mode == "colonisation") {
+	heatmapColour = function heatmapColour(amount) {
+		if (cstate == 'claim') {
+		    return starRedMaterial;
+		} else if (cstate == 'new') {
+		    return starYellowMaterial;
+		} else {
+		    return starWhiteMaterial;
+		}
+	}
+    }
 
 	
 	var systemidx = {};
