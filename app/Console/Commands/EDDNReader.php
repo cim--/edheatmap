@@ -205,9 +205,10 @@ class EDDNReader extends Command
         }
     }
 
+    /* Increased from 500 to 2000 as colonisation continues */
     private function inBounds($pos) {
         for ($i=0;$i<=2;$i++) {
-            if (abs($pos[$i]) > 500) {
+            if (abs($pos[$i]) > 2000) {
                 return false;
             }
         }
