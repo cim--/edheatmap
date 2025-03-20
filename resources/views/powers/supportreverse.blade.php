@@ -9,7 +9,7 @@
 	
 	<h2>{{ $system->name }}</h2>
 
-	@if ($power) 
+	@if ($power && $power != "Acquisition") 
 	    <p>{{ $system->powerstate }} for {{ $system->power }}</p>
 	@else
 	    <p>Potential Acquisition Target</p>

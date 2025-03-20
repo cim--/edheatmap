@@ -123,7 +123,7 @@ class PowerController extends Controller
         }
 
         $power = $system->power;
-        if ($power) {
+        if ($power && $power != "Acquisition") {
             $controls = System::where('name', '!=', $sysname)->whereIn('powerstate', ['Stronghold', 'Fortified'])->where('power', $power)->orderBy('name')->get(); 
         } else {
             $controls = System::where('name', '!=', $sysname)->whereIn('powerstate', ['Stronghold', 'Fortified'])->orderBy('name')->get(); 
