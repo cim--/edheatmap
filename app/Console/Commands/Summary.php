@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Event;
 use App\Total;
+use App\System;
 use Carbon\Carbon;
 
 class Summary extends Command
@@ -70,6 +71,18 @@ class Summary extends Command
 
         // cleanup
         Event::whereDate('eventtime', '<', $backdate)->delete();
+
+        /* Set Powerplay totals */
+        $total = Total::firstOrNew(
+            ['date' => Carbon::today()]
+        );
+        if (!$total->total) {
+            $total->total = 0;
+        }
+        $total->reinforcement = System::sum('reinforcement');
+        $total->acquisition = System::sum('acquisition');
+        $total->undermining = System::sum('undermining');
+        $total->save();
     }
 
 }

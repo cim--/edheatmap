@@ -15,6 +15,41 @@
 
 	<x-powercontrolform />
 
+	<h2>Current Powerplay Status</h2>
+	<table>
+	    <tr>
+		<td>Status...</td>
+		<th>Systems</th>
+		<th>Control Points</th>
+		<th>Balance</th>
+	    </tr>
+	    <tr>
+		<th>Occupied</th>
+		<td>{{ $occupied }}</td>
+		<td>{{ number_format($totalcp) }}</td>
+		<td>{{ number_format($reinforcement) }}R - {{ number_format($undermining) }}U</td>
+	    </tr>
+	    <tr>
+		<th>Reinforced</th>
+		<td>{{ $reinforced }}</td>
+		<td>{{ number_format($reinforcedcp) }}</td>
+		<td></td>
+	    </tr>
+	    <tr>
+		<th>Acquisition</th>
+		<td>{{ $acquirable }}</td>
+		<td></td>
+		<td>{{ number_format($acquisition) }}</td>
+	    </tr>
+	    <tr>
+		<th>Total</th>
+		<td>{{ $occupied + $acquirable }}</td>
+		<td></td>
+		<td>{{ number_format($acquisition + $reinforcement + $undermining) }}</td>
+	    </tr>
+	</table>
+	
+	
 	<h2>Overall Power Maps</h2>
 
 	<p>Schematics of Power connectivity</p>

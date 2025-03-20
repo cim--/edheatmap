@@ -132,6 +132,19 @@ class EDDNReader extends Command
                                         $system->power = $data['ControllingPower'];
                                         $system->powerstate = $data['PowerplayState'];
                                         $system->powerplayweek = $week;
+
+                                        $system->acquisition = 0;
+                                        if (isset($data['PowerplayStateControlProgress'])) {
+                                            $system->powercps = (int)$this->calculateCPTotal($data['PowerplayState'], $data['PowerplayStateControlProgress']);
+                                        }
+                                        if (isset($data['PowerplayStateReinforcement'])) {
+                                            $system->reinforcement = $data['PowerplayStateReinforcement'];
+                                        }
+                                        if (isset($data['PowerplayStateUndermining'])) {
+                                            $system->undermining = $data['PowerplayStateUndermining'];
+                                        }
+                                        
+                                        
                                         $system->save();
                                     } else {
                                         /* This could mean "no power" or it
@@ -142,13 +155,30 @@ class EDDNReader extends Command
                                             // ignore this one
                                         } elseif ($system->powerstate == "Stronghold" && $system->powerplayweek >= $week-1) {
                                             // can't lose a stronghold in a single week
-                                        } elseif ($system->power != null) {
-                                            // can't be sure, but accept the blanking for now
-                                            $system->power = null;
+                                        } elseif (isset($data['PowerplayConflictProgress'])) {
+                                            // positive confirmation of Acquisition
+                                            $system->power = "Acquisition";
                                             $system->powerstate = "None";
                                             $system->powerplayweek = $week;
+
+                                            $cp = 0;
+                                            foreach ($data['PowerplayConflictProgress'] as $progress) {
+                                                $cp += $progress['ConflictProgress'];
+                                            }
+                                            $system->powercps = 0;
+                                            $system->acquisition = (int)($cp * 120000);
+                                            $system->reinforcement = 0;
+                                            $system->undermining = 0;
+                                            
                                             $system->save();
-                                            $this->line("Removed PP information for ".$system->name);
+                                            
+                                        } elseif ($system->power != null) {
+                                            // assume missing data and
+                                            // increment the week
+                                            // counter as below
+                                            $system->powerplayweek = $week;
+                                            $system->save();
+                                            $this->line("Possible loss of ".$system->name." from Powerplay, but assuming missing data");
                                         } else {
                                             // blank to blank, update the
                                             // week number as this won't
@@ -213,6 +243,19 @@ class EDDNReader extends Command
             }
         }
         return true;
+    }
+
+    // calculate powerplay CP strength
+    private function calculateCPTotal($state, $fraction) {
+        switch ($state) {
+        case "Exploited":
+            return $fraction * 333333;
+        case "Fortified":
+            return ($fraction * 666666) + 333333;
+        case "Stronghold":
+            return ($fraction * 1000000) + 1000000;
+        }
+        return 0; // shouldn't happen
     }
 
     private function duplicateCheck($event) {

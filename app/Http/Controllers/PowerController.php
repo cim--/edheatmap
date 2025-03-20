@@ -30,9 +30,27 @@ class PowerController extends Controller
             "Yuri Grom" => "Clayakarma",
             "Zemina Torval" => "Synteini"
         ];
+        $week = $this->week(Carbon::now());
+        $reinforcement = System::where('powerplayweek', $week)->sum('reinforcement');
+        $undermining = System::where('powerplayweek', $week)->sum('undermining');
+        $acquisition = System::where('powerplayweek', $week)->sum('acquisition');
+        $totalcp = System::sum('powercps');
+        $reinforcedcp = System::whereIn('powerstate', ['Fortified', 'Stronghold'])->sum('powercps');
+        $occupied = System::whereIn('powerstate', ['Exploited', 'Fortified', 'Stronghold'])->count();
+        $reinforced = System::whereIn('powerstate', ['Fortified', 'Stronghold'])->count();
+        $acquirable = System::where('power', 'Acquisition')->count();
+        
         return view('powers.index', [
             'powers' => $powers,
-            'week' => $this->week(Carbon::now())
+            'week' => $week,
+            'reinforcement' => $reinforcement,
+            'undermining' => $undermining,
+            'acquisition' => $acquisition,
+            'totalcp' => $totalcp,
+            'reinforcedcp' => $reinforcedcp,
+            'occupied' => $occupied,
+            'reinforced' => $reinforced,
+            'acquirable' => $acquirable
         ]);
     }
 
