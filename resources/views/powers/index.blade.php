@@ -41,12 +41,6 @@
 		<td></td>
 		<td>{{ number_format($acquisition) }}</td>
 	    </tr>
-	    <tr>
-		<th>Total</th>
-		<td>{{ $occupied + $acquirable }}</td>
-		<td></td>
-		<td>{{ number_format($acquisition + $reinforcement + $undermining) }}</td>
-	    </tr>
 	</table>
 	
 	
