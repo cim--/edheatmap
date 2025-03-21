@@ -27,7 +27,7 @@
 		<th>Occupied</th>
 		<td>{{ $occupied }}</td>
 		<td>{{ number_format($totalcp) }}</td>
-		<td>{{ number_format($reinforcement) }}R - {{ number_format($undermining) }}U</td>
+		<td>{{ number_format($reinforcement) }}R - {{ number_format($undermining) }}U ({{ number_format($reinforcement/$undermining, 1) }}x)</td>
 	    </tr>
 	    <tr>
 		<th>Reinforced</th>
@@ -38,8 +38,8 @@
 	    <tr>
 		<th>Acquisition</th>
 		<td>{{ $acquirable }}</td>
-		<td></td>
 		<td>{{ number_format($acquisition) }}</td>
+		<td></td>
 	    </tr>
 	</table>
 	

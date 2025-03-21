@@ -202,7 +202,7 @@ class PowerController extends Controller
             $wtotals[$age->powerplayweek] += $age->c;
         }
         $powers = \App\Util::powers();
-
+        $powers['Acquisition'] = "Acquisition";
         $oldest = [];
         foreach ($ptotals as $power => $ignore) {
             if ($power == "null") {
