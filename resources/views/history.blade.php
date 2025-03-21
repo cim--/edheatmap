@@ -11,7 +11,9 @@
      
 	<p>History based on data retrieved from EDDN.</p>
 
-	<p>At the moment, "Powerplay" counts pledged commanders in PP-controlled systems. Unpledged CMDRs, and pledged CMDRs in neutral/acquisition systems, don't count. This may change with later updates to the Journal.</p>
+	<p>Between November 2024 and 20 March 2025, "Powerplay" counts pledged commanders in PP-controlled systems. Unpledged CMDRs, and pledged CMDRs in neutral/acquisition systems, don't count.</p>
+
+	<p>On and after 20 March 2025, unpledged CMDRs should report the same as pledged ones, and detection of Acquisition systems becomes possible. There is expected to be a transitional period as senders are updated.</p>
 	
 	<form action="/history" method="get">
 	    Start: <input type="date" name="start" value="{{$start->format("Y-m-d")}}">

@@ -247,6 +247,10 @@ class EDDNReader extends Command
 
     // calculate powerplay CP strength
     private function calculateCPTotal($state, $fraction) {
+        if ($fraction < 0) {
+            // undermined too much
+            $fraction = 0;
+        }
         switch ($state) {
         case "Exploited":
             return $fraction * 333333;
