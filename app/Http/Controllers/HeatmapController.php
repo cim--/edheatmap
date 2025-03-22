@@ -44,11 +44,9 @@ class HeatmapController extends Controller
                 $q->where('eventtime', '>', $time);
             }]);
         
-        $systems = $getsystems->get()->sortByDesc('events_count');
-        
         $systemdata = [];
         $total = 0;
-        foreach ($systems as $system) {
+        foreach ($getsystems->cursor() as $system) {
             $total += $system->events_count;
             $systemdata[] = [
                 'name' => $system->name,
@@ -60,10 +58,14 @@ class HeatmapController extends Controller
                 'cstate' => $system->colonisationState()
             ];
         }
+
+        usort($systemdata, function ($a, $b) {
+            return $b['amount'] - $a['amount'];
+        });
         
         return view('index', [
             'systemdata' => base64_encode(json_encode($systemdata)),
-            'systems' => $systems,
+            'first' => $systemdata[0]['name'],
             'desc' => $tdesc,
             'mdesc' => $mdesc,
             'mode' => $m,

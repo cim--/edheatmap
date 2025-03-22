@@ -31,7 +31,7 @@
 		<td><a href="./?t=week">Last Week</a></td>
 		<td><a href="./?m=colonisation">Colonisation</a></td>
 		<td><strong>Current</strong>: {{$desc}} ({{$total}})</td>
-		<td colspan='2'><input id='ctrl_system' value="{{$systems->first()->name}}"><button id='ctrl_go'>Go</button></td>
+		<td colspan='2'><input id='ctrl_system' value="{{$first}}"><button id='ctrl_go'>Go</button></td>
 	  </tr>
        <tr>
 		 <td><button id='ctrl_forward'>Forward</button></td>
