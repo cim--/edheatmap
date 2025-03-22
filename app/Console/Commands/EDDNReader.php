@@ -251,6 +251,11 @@ class EDDNReader extends Command
             // undermined too much
             $fraction = 0;
         }
+        if ($fraction > 2) {
+            // integer overrun in ED journal itself!
+            // probably actually undermining
+            $fraction = 0;
+        }
         switch ($state) {
         case "Exploited":
             return $fraction * 333333;
