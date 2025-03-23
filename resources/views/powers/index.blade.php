@@ -42,7 +42,7 @@
 		<td></td>
 	    </tr>
 	</table>
-	
+	<p>{{ $netreinforcement }} systems being net reinforced, {{ $netundermining }} systems being net undermined, ratio {{ number_format($netreinforcement/$netundermining, 1) }}x</p>
 	
 	<h2>Overall Power Maps</h2>
 

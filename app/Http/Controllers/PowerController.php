@@ -39,6 +39,9 @@ class PowerController extends Controller
         $occupied = System::whereIn('powerstate', ['Exploited', 'Fortified', 'Stronghold'])->count();
         $reinforced = System::whereIn('powerstate', ['Fortified', 'Stronghold'])->count();
         $acquirable = System::where('power', 'Acquisition')->count();
+        $netreinforcement = System::where('powerplayweek', $week)->whereColumn('reinforcement', '>', 'undermining')->count();
+        $netundermining = System::where('powerplayweek', $week)->whereColumn('reinforcement', '<', 'undermining')->count();
+
         
         return view('powers.index', [
             'powers' => $powers,
@@ -50,7 +53,9 @@ class PowerController extends Controller
             'reinforcedcp' => $reinforcedcp,
             'occupied' => $occupied,
             'reinforced' => $reinforced,
-            'acquirable' => $acquirable
+            'acquirable' => $acquirable,
+            'netreinforcement' => $netreinforcement,
+            'netundermining' => $netundermining,
         ]);
     }
 
