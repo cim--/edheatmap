@@ -79,7 +79,7 @@ class Summary extends Command
         if (!$total->total) {
             $total->total = 0;
         }
-        $week = $this->week(Carbon::now());
+        $week = \App\Util::week(Carbon::now());
         $total->reinforcement = System::where('powerplayweek', $week)->sum('reinforcement');
         $total->acquisition = System::where('powerplayweek', $week)->sum('acquisition');
         $total->undermining = System::where('powerplayweek', $week)->sum('undermining');
