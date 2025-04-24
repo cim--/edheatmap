@@ -87,8 +87,7 @@ class EDDNReader extends Command
                     (isset($data['SystemEconomy']) && $data['SystemEconomy'] != '$economy_None;')
                     ) {
                     // inhabited, or if no factions, previously inhabited
-                    if ($this->inBounds($data['StarPos'])) {
-
+                    if ($this->inBounds($data['StarPos'], $data['StarSystem'])) {
                         if ($this->duplicateCheck($event)) {
                             $system = System::where('name', $data['StarSystem'])->first();
 
@@ -236,12 +235,23 @@ class EDDNReader extends Command
     }
 
     /* Increased from 500 to 2000 as colonisation continues */
-    private function inBounds($pos) {
+    private function inBounds($pos, $name) {
         for ($i=0;$i<=2;$i++) {
             if (abs($pos[$i]) > 2000) {
                 return false;
             }
         }
+
+        if ($name == "L Velorum") {
+            // l Velorum and L Velorum both exist,
+            // for now only l Velorum is inhabited
+            return false;
+        }
+        if ($name == "HIP 60025" && $pos[1] < 250) {
+            // there are two HIP 60025s, prefer the populated one
+            return false;
+        }
+        
         return true;
     }
 
