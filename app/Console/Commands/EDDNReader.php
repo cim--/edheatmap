@@ -222,9 +222,9 @@ class EDDNReader extends Command
                                     // assume failed claim
                                 } else {
                                     $this->error("And was previously populated...");
-                                    // mark for manual investigation
-                                    $system->powerplayweek = 0;
-                                    $system->save();
+                                    // assume just failure to get live data
+                                    // and use of the 2.2Beta cache
+                                    // so ignore it
                                 }
                             }
                         }
