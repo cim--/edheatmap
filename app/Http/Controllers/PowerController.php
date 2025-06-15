@@ -42,6 +42,28 @@ class PowerController extends Controller
         $netreinforcement = System::where('powerplayweek', $week)->whereColumn('reinforcement', '>', 'undermining')->count();
         $netundermining = System::where('powerplayweek', $week)->whereColumn('reinforcement', '<', 'undermining')->count();
 
+        /* minimum CP and actually undermined are hard to tell apart,
+         * so check that undermining is winning too */
+        $underminedlist = System::where(function ($qe) {
+            $qe->where('powerstate', 'Exploited')
+               ->where('powercps', 0)
+               ->whereColumn('undermining', '>', 'reinforcement');
+        })->where(function ($qe) {
+            $qe->where('powerstate', 'Fortified')
+               ->where('powercps', 333333)
+               ->whereColumn('undermining', '>', 'reinforcement');
+        })->where(function ($qe) {
+            $qe->where('powerstate', 'Stronghold')
+               ->where('powercps', 1000000)
+               ->whereColumn('undermining', '>', 'reinforcement');
+        })->orderBy('name')->get();
+        $reinforcedlist = System::where(function ($qe) {
+            $qe->where('powerstate', 'Exploited')
+               ->where('powercps', '>=', 333334);
+        })->where(function ($qe) {
+            $qe->where('powerstate', 'Fortified')
+               ->where('powercps', '>=', 1000000);
+        })->orderBy('name')->get();
         
         return view('powers.index', [
             'powers' => $powers,
@@ -56,6 +78,8 @@ class PowerController extends Controller
             'acquirable' => $acquirable,
             'netreinforcement' => $netreinforcement,
             'netundermining' => $netundermining,
+            'underminedlist' => $underminedlist,
+            'reinforcedlist' => $reinforcedlist,
         ]);
     }
 

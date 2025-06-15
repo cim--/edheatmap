@@ -27,7 +27,7 @@
 		<th>Occupied</th>
 		<td>{{ $occupied }}</td>
 		<td>{{ number_format($totalcp) }}</td>
-		<td>{{ number_format($reinforcement) }}R - {{ number_format($undermining) }}U ({{ number_format($reinforcement/$undermining, 1) }}x)</td>
+		<td>{{ number_format($reinforcement) }}R - {{ number_format($undermining) }}U ({{ $undermining > 0 ? number_format($reinforcement/$undermining, 1) : "-" }}x)</td>
 	    </tr>
 	    <tr>
 		<th>Reinforced</th>
@@ -42,7 +42,26 @@
 		<td></td>
 	    </tr>
 	</table>
-	<p>{{ $netreinforcement }} systems being net reinforced, {{ $netundermining }} systems being net undermined, ratio {{ number_format($netreinforcement/$netundermining, 1) }}x</p>
+	<p>{{ $netreinforcement }} systems being net reinforced, {{ $netundermining }} systems being net undermined, ratio {{ $netundermining > 0 ? number_format($netreinforcement/$netundermining, 1) : "-" }}x</p>
+
+	<h3>Successfully Undermined Systems</h3>
+	<table>
+	    <thead>
+		<tr>
+		    <th>Power</th><th>System</th><th>State</th>
+		</tr>
+	    </thead>
+	    <tbody>
+		@foreach ($underminedlist as $usys)
+		    <tr>
+			<td>{{ $usys->power }}</td>
+			<td>{{ $usys->name }}</td>
+			<td>{{ $usys->powerstate }}</td>
+		    </tr>
+		@endforeach
+	    </tbody>
+	</table>
+	<p>{{ $reinforcedlist->count() }} systems successfully reinforced.</p>
 	
 	<h2>Overall Power Maps</h2>
 
