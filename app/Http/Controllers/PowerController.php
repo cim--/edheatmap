@@ -44,26 +44,32 @@ class PowerController extends Controller
 
         /* minimum CP and actually undermined are hard to tell apart,
          * so check that undermining is winning too */
-        $underminedlist = System::where(function ($qe) {
-            $qe->where('powerstate', 'Exploited')
-               ->where('powercps', 0)
-               ->whereColumn('undermining', '>', 'reinforcement');
-        })->orWhere(function ($qe) {
-            $qe->where('powerstate', 'Fortified')
-               ->where('powercps', 333333)
-               ->whereColumn('undermining', '>', 'reinforcement');
-        })->orWhere(function ($qe) {
-            $qe->where('powerstate', 'Stronghold')
-               ->where('powercps', 1000000)
-               ->whereColumn('undermining', '>', 'reinforcement');
-        })->orderBy('name')->get();
-        $reinforcedlist = System::where(function ($qe) {
-            $qe->where('powerstate', 'Exploited')
-               ->where('powercps', '>=', 333334);
-        })->orWhere(function ($qe) {
-            $qe->where('powerstate', 'Fortified')
-               ->where('powercps', '>=', 1000000);
-        })->orderBy('name')->get();
+        $underminedlist = System::where('powerplayweek', $week)
+                        ->where(function($q) {
+                            $q->where(function ($qe) {
+                                $qe->where('powerstate', 'Exploited')
+                                   ->where('powercps', 0)
+                                   ->whereColumn('undermining', '>', 'reinforcement');
+                            })->orWhere(function ($qe) {
+                                $qe->where('powerstate', 'Fortified')
+                                   ->where('powercps', 333333)
+                                   ->whereColumn('undermining', '>', 'reinforcement');
+                            })->orWhere(function ($qe) {
+                                $qe->where('powerstate', 'Stronghold')
+                                   ->where('powercps', 1000000)
+                                   ->whereColumn('undermining', '>', 'reinforcement');
+                            });
+                        })->orderBy('name')->get();
+        $reinforcedlist = System::where('powerplayweek', $week)
+                        ->where(function($q) {
+                            $q->where(function ($qe) {
+                                $qe->where('powerstate', 'Exploited')
+                                   ->where('powercps', '>=', 333334);
+                            })->orWhere(function ($qe) {
+                                $qe->where('powerstate', 'Fortified')
+                                   ->where('powercps', '>=', 1000000);
+                            });
+                        })->orderBy('name')->get();
         
         return view('powers.index', [
             'powers' => $powers,

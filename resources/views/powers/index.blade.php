@@ -45,6 +45,9 @@
 	<p>{{ $netreinforcement }} systems being net reinforced, {{ $netundermining }} systems being net undermined, ratio {{ $netundermining > 0 ? number_format($netreinforcement/$netundermining, 1) : "-" }}x</p>
 
 	<h3>Successfully Undermined Systems</h3>
+	@if ($underminedlist->count() == 0)
+	    <p>None so far this week.</p>
+	@else
 	<table>
 	    <thead>
 		<tr>
@@ -61,7 +64,9 @@
 		@endforeach
 	    </tbody>
 	</table>
-	<p>{{ $reinforcedlist->count() }} systems successfully reinforced.</p>
+	@endif
+	
+	<p>({{ $reinforcedlist->count() }} systems successfully reinforced.)</p>
 	
 	<h2>Overall Power Maps</h2>
 
