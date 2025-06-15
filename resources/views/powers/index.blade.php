@@ -51,7 +51,7 @@
 	<table>
 	    <thead>
 		<tr>
-		    <th>Power</th><th>System</th><th>State</th>
+		    <th>Power</th><th>System</th><th>State</th><th>Margin</th>
 		</tr>
 	    </thead>
 	    <tbody>
@@ -60,6 +60,7 @@
 			<td>{{ $usys->power }}</td>
 			<td>{{ $usys->name }}</td>
 			<td>{{ $usys->powerstate }}</td>
+			<td>{{ number_format($usys->reinforcement) }} - {{ number_format($usys->undermining) }}</td>
 		    </tr>
 		@endforeach
 	    </tbody>
