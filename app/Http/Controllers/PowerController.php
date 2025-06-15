@@ -48,11 +48,11 @@ class PowerController extends Controller
             $qe->where('powerstate', 'Exploited')
                ->where('powercps', 0)
                ->whereColumn('undermining', '>', 'reinforcement');
-        })->where(function ($qe) {
+        })->orWhere(function ($qe) {
             $qe->where('powerstate', 'Fortified')
                ->where('powercps', 333333)
                ->whereColumn('undermining', '>', 'reinforcement');
-        })->where(function ($qe) {
+        })->orWhere(function ($qe) {
             $qe->where('powerstate', 'Stronghold')
                ->where('powercps', 1000000)
                ->whereColumn('undermining', '>', 'reinforcement');
@@ -60,7 +60,7 @@ class PowerController extends Controller
         $reinforcedlist = System::where(function ($qe) {
             $qe->where('powerstate', 'Exploited')
                ->where('powercps', '>=', 333334);
-        })->where(function ($qe) {
+        })->orWhere(function ($qe) {
             $qe->where('powerstate', 'Fortified')
                ->where('powercps', '>=', 1000000);
         })->orderBy('name')->get();
