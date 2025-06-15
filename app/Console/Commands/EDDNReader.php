@@ -148,13 +148,7 @@ class EDDNReader extends Command
                                     } else {
                                         /* This could mean "no power" or it
                                          * could mean "player not pledged */
-                                        if ($system->power && $system->powerplayweek >= $week) {
-                                            // there's been a mention of a
-                                            // power presence this week already, so
-                                            // ignore this one
-                                        } elseif ($system->powerstate == "Stronghold" && $system->powerplayweek >= $week-1) {
-                                            // can't lose a stronghold in a single week
-                                        } elseif (isset($data['PowerplayConflictProgress'])) {
+                                        if (isset($data['PowerplayConflictProgress'])) {
                                             // positive confirmation of Acquisition
                                             $system->power = "Acquisition";
                                             $system->powerstate = "None";
@@ -170,6 +164,13 @@ class EDDNReader extends Command
                                             $system->undermining = 0;
                                             
                                             $system->save();
+
+                                        } elseif ($system->power && $system->powerplayweek >= $week) {
+                                            // there's been a mention of a
+                                            // power presence this week already, so
+                                            // ignore this one
+                                        } elseif ($system->powerstate == "Stronghold" && $system->powerplayweek >= $week-1) {
+                                            // can't lose a stronghold in a single week
                                             
                                         } elseif ($system->power != null) {
                                             // assume missing data and
