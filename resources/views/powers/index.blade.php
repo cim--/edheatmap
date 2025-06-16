@@ -61,7 +61,7 @@
 			<td>{{ $usys->name }}</td>
 			<td>{{ $usys->powerstate }}</td>
 			<td>{{ number_format($usys->reinforcement) }} - {{ number_format($usys->undermining) }}</td>
-			<td>{{ $usys->format("j F H:i") }}
+			<td>{{ $usys->updated_at->format("j F H:i") }}
 		    </tr>
 		@endforeach
 	    </tbody>
@@ -89,7 +89,7 @@
 			    <td>{{ $usys->powerstate }}</td>
 			    <td>{{ number_format($usys->undermining) }}</td>
 			    <td>{{ number_format($usys->reinforcement) }}</td>
-			    <td>{{ $usys->format("j F H:i") }}
+			    <td>{{ $usys->updated_at->format("j F H:i") }}
 			</tr>
 		    @endforeach
 		</tbody>
