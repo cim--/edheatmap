@@ -235,13 +235,13 @@ class EDDNReader extends Command
         }
     }
 
-    /* Increased from 500 to 2000 as colonisation continues */
     private function inBounds($pos, $name) {
-        for ($i=0;$i<=2;$i++) {
+        /* // removed range limit with colonisation
+          for ($i=0;$i<=2;$i++) {
             if (abs($pos[$i]) > 2000) {
                 return false;
             }
-        }
+            }*/
 
         if ($name == "L Velorum") {
             // l Velorum and L Velorum both exist,
