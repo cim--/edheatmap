@@ -51,7 +51,7 @@
 	<table>
 	    <thead>
 		<tr>
-		    <th>Power</th><th>System</th><th>State</th><th>Margin</th>
+		    <th>Power</th><th>System</th><th>State</th><th>Margin</th><th>Last update</th>
 		</tr>
 	    </thead>
 	    <tbody>
@@ -61,6 +61,7 @@
 			<td>{{ $usys->name }}</td>
 			<td>{{ $usys->powerstate }}</td>
 			<td>{{ number_format($usys->reinforcement) }} - {{ number_format($usys->undermining) }}</td>
+			<td>{{ $usys->format("j F H:i") }}
 		    </tr>
 		@endforeach
 	    </tbody>
@@ -68,6 +69,36 @@
 	@endif
 	
 	<p>({{ $reinforcedlist->count() }} systems successfully reinforced.)</p>
+
+	<h3>Heavily Undermined Systems</h3>
+
+	@if ($maxundermined->count() == 0)
+	    <p>None so far this week.</p>
+	@else
+	    <table>
+		<thead>
+		    <tr>
+			<th>Power</th><th>System</th><th>State</th><th>Undermining</th><th>Reinforcement</th><th>Last update</th>
+		    </tr>
+		</thead>
+		<tbody>
+		    @foreach ($maxundermined as $usys)
+			<tr>
+			    <td>{{ $usys->power }}</td>
+			    <td>{{ $usys->name }}</td>
+			    <td>{{ $usys->powerstate }}</td>
+			    <td>{{ number_format($usys->undermining) }}</td>
+			    <td>{{ number_format($usys->reinforcement) }}</td>
+			    <td>{{ $usys->format("j F H:i") }}
+			</tr>
+		    @endforeach
+		</tbody>
+	    </table>
+	@endif
+	
+	<p>({{ $overreinforced }} systems reinforced more than the greatest undermining.)</p>
+
+	
 	
 	<h2>Overall Power Maps</h2>
 

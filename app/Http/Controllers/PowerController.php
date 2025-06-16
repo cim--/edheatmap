@@ -70,6 +70,14 @@ class PowerController extends Controller
                                    ->where('powercps', '>=', 1000000);
                             });
                         })->orderBy('name')->get();
+
+        $maxundermined = System::where('powerplayweek', $week)
+                       ->where('undermining', '>', 0)
+                       ->orderBy('undermining', 'desc')
+                       ->limit(10)->get();
+        $overreinforced = System::where('powerplayweek', $week)
+                        ->where('reinforcement', '>', isset($maxundermined[0]) ? $maxundermined[0]->undermining : 0)
+                        ->count();
         
         return view('powers.index', [
             'powers' => $powers,
@@ -86,6 +94,8 @@ class PowerController extends Controller
             'netundermining' => $netundermining,
             'underminedlist' => $underminedlist,
             'reinforcedlist' => $reinforcedlist,
+            'maxundermined' => $maxundermined,
+            'overreinforced' => $overreinforced,
         ]);
     }
 
