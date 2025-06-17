@@ -79,6 +79,15 @@ class PowerController extends Controller
         $overreinforced = System::where('powerplayweek', $week)
                         ->where('reinforcement', '>', isset($maxundermined[0]) ? $maxundermined[0]->undermining : 0)
                         ->count();
+
+        $perpowerratios = System::where('power', '!=', 'Acquisition')
+                        ->whereNotNull('power')
+                        ->where('powerplayweek', $week)
+                        ->select(
+                            'power',
+                            \DB::raw('SUM(undermining) u'),
+                            \DB::raw('SUM(reinforcement) r')
+                        )->groupBy('power')->get();
         
         return view('powers.index', [
             'powers' => $powers,
@@ -97,6 +106,7 @@ class PowerController extends Controller
             'reinforcedlist' => $reinforcedlist,
             'maxundermined' => $maxundermined,
             'overreinforced' => $overreinforced,
+            'perpowerratios' => $perpowerratios,
         ]);
     }
 

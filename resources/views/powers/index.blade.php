@@ -44,6 +44,32 @@
 	</table>
 	<p>{{ $netreinforcement }} systems being net reinforced, {{ $netundermining }} systems being net undermined, ratio {{ $netundermining > 0 ? number_format($netreinforcement/$netundermining, 1) : "-" }}x</p>
 
+	<h3>Per-Power Ratios</h3>
+
+	<table>
+	    <thead>
+		<tr>
+		    <th>Power</th><th>Reinforcement</th><th>Undermining</th><th>Ratio</th>
+		</tr>
+	    </thead>
+	    <tbody>
+		@foreach ($perpowerratios as $entry)
+		    <tr>
+			<td>{{ $entry->power }}</td>
+			<td>{{ number_format($entry->r) }}</td>
+			<td>{{ number_format($entry->u) }}</td>
+			<td>
+			    @if ($entry->u == 0)
+				-
+			    @else
+				{{number_format($entry->r / $entry->u, 1)}}
+			    @endif
+			</td>
+		    </tr>
+		@endforeach
+	    </tbody>
+	</table>
+	
 	<h3>Successfully Undermined Systems</h3>
 	@if ($underminedlist->count() == 0)
 	    <p>None so far this week.</p>
