@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\System;
+use App\Util;
 use Storage;
 
 class PowerController extends Controller
@@ -52,11 +53,11 @@ class PowerController extends Controller
                                    ->whereColumn('undermining', '>', 'reinforcement');
                             })->orWhere(function ($qe) {
                                 $qe->where('powerstate', 'Fortified')
-                                   ->where('powercps', 333333)
+                                   ->where('powercps', Util::PP_EXFRAC)
                                    ->whereColumn('undermining', '>', 'reinforcement');
                             })->orWhere(function ($qe) {
                                 $qe->where('powerstate', 'Stronghold')
-                                   ->where('powercps', 1000000)
+                                   ->where('powercps', Util::PP_EXFRAC + Util::PP_STFRAC)
                                    ->whereColumn('undermining', '>', 'reinforcement');
                             });
                         })->orderBy('name')->get();
@@ -64,10 +65,10 @@ class PowerController extends Controller
                         ->where(function($q) {
                             $q->where(function ($qe) {
                                 $qe->where('powerstate', 'Exploited')
-                                   ->where('powercps', '>=', 333334);
+                                   ->where('powercps', '>', Util::PP_EXFRAC);
                             })->orWhere(function ($qe) {
                                 $qe->where('powerstate', 'Fortified')
-                                   ->where('powercps', '>=', 1000000);
+                                   ->where('powercps', '>', Util::PP_EXFRAC + Util::PP_FOFRAC);
                             });
                         })->orderBy('name')->get();
 

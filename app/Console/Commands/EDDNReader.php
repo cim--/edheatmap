@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\System;
 use App\Event;
+use App\Util;
 use Carbon\Carbon;
 
 class EDDNReader extends Command
@@ -269,11 +270,11 @@ class EDDNReader extends Command
         }
         switch ($state) {
         case "Exploited":
-            return $fraction * 333333;
+            return $fraction * Util::PP_EXFRAC;
         case "Fortified":
-            return ($fraction * 666666) + 333333;
+            return ($fraction * Util::PP_FOFRAC) + Util::PP_EXFRAC;
         case "Stronghold":
-            return ($fraction * 1000000) + 1000000;
+            return ($fraction * Util::PP_STFRAC) + Util::PP_EXFRAC + Util::PPFOFRAC;
         }
         return 0; // shouldn't happen
     }
