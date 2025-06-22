@@ -274,7 +274,7 @@ class EDDNReader extends Command
         case "Fortified":
             return ($fraction * Util::PP_FOFRAC) + Util::PP_EXFRAC;
         case "Stronghold":
-            return ($fraction * Util::PP_STFRAC) + Util::PP_EXFRAC + Util::PPFOFRAC;
+            return ($fraction * Util::PP_STFRAC) + Util::PP_EXFRAC + Util::PP_FOFRAC;
         }
         return 0; // shouldn't happen
     }
