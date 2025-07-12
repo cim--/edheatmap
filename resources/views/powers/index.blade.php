@@ -27,7 +27,7 @@
 		<th>Occupied</th>
 		<td>{{ $occupied }}</td>
 		<td>{{ number_format($totalcp) }}</td>
-		<td>{{ number_format($reinforcement) }}R - {{ number_format($undermining) }}U ({{ $undermining > 0 ? number_format($reinforcement/$undermining, 1) : "-" }}x)</td>
+		<td>{{ number_format($reinforcement) }}R - {{ number_format($undermining) }}U ({{ $undermining > 0 ? number_format($reinforcement/$undermining, 1) : "-" }}x) - {{ number_format($decay) }}D</td>
 	    </tr>
 	    <tr>
 		<th>Reinforced</th>
@@ -49,13 +49,14 @@
 	<table>
 	    <thead>
 		<tr>
-		    <th>Power</th><th>Reinforcement</th><th>Undermining</th><th>Ratio</th>
+		    <th>Power</th><th>Systems</th><th>Reinforcement</th><th>Undermining</th><th>Ratio</th><th>Decay</th><th>Activity per system</th>
 		</tr>
 	    </thead>
 	    <tbody>
 		@foreach ($perpowerratios as $entry)
 		    <tr>
 			<td>{{ $entry->power }}</td>
+			<td>{{ number_format($entry->c) }}</td>
 			<td>{{ number_format($entry->r) }}</td>
 			<td>{{ number_format($entry->u) }}</td>
 			<td>
@@ -65,6 +66,8 @@
 				{{number_format($entry->r / $entry->u, 1)}}
 			    @endif
 			</td>
+			<td>{{ number_format($entry->d) }}</td>
+			<td>{{ number_format(($entry->r + $entry->u) / $entry->c) }}</td>
 		    </tr>
 		@endforeach
 	    </tbody>

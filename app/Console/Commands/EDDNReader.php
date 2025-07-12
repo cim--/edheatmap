@@ -143,7 +143,9 @@ class EDDNReader extends Command
                                         if (isset($data['PowerplayStateUndermining'])) {
                                             $system->undermining = $data['PowerplayStateUndermining'];
                                         }
-                                        
+                                        //                                        $this->line("Undermining: ".$system->undermining);
+                                        $system->setDecay();
+                                        //                                        $this->line("Split to: U".$system->undermining." + D".$system->ppdecay);
                                         
                                         $system->save();
                                     } else {

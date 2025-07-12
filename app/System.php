@@ -46,4 +46,34 @@ class System extends Model
             }
         }
     }
+
+    public function setDecay()
+    {
+        switch ($this->powerstate) {
+        case "Exploited":
+            $baseline = 350000/4;
+            $rate = 2/24;
+            break;
+        case "Fortified":
+            $baseline = 350000+(650000/4);
+            $rate = 4/24;
+            break;
+        case "Stronghold":
+            $baseline = 1000000+(1000000/4);
+            $rate = 5/24;
+            break;
+        default:
+            return; // not applicable
+        }
+
+        // find the start of week strength before decay
+        $originalstrength = $this->powercps + $this->undermining - $this->reinforcement;
+        if ($originalstrength > $baseline) {
+            // decay has occurred
+            $decay = $rate * ($originalstrength - $baseline);
+            // separate out decay and real undermining components
+            $this->undermining = (int)max(0, $this->undermining - $decay);
+            $this->ppdecay = (int)$decay;
+        }
+    }
 }

@@ -34,6 +34,7 @@ class PowerController extends Controller
         $week = $this->week(Carbon::now());
         $reinforcement = System::where('powerplayweek', $week)->sum('reinforcement');
         $undermining = System::where('powerplayweek', $week)->sum('undermining');
+        $decay = System::where('powerplayweek', $week)->sum('ppdecay');
         $acquisition = System::where('powerplayweek', $week)->sum('acquisition');
         $totalcp = System::sum('powercps');
         $reinforcedcp = System::whereIn('powerstate', ['Fortified', 'Stronghold'])->sum('powercps');
@@ -85,8 +86,10 @@ class PowerController extends Controller
                         ->where('powerplayweek', $week)
                         ->select(
                             'power',
+                            \DB::raw('COUNT(id) c'),
                             \DB::raw('SUM(undermining) u'),
-                            \DB::raw('SUM(reinforcement) r')
+                            \DB::raw('SUM(reinforcement) r'),
+                            \DB::raw('SUM(ppdecay) d'),
                         )->groupBy('power')->get();
         
         return view('powers.index', [
@@ -94,6 +97,7 @@ class PowerController extends Controller
             'week' => $week,
             'reinforcement' => $reinforcement,
             'undermining' => $undermining,
+            'decay' => $decay,
             'acquisition' => $acquisition,
             'totalcp' => $totalcp,
             'reinforcedcp' => $reinforcedcp,
