@@ -49,7 +49,7 @@
 	<table>
 	    <thead>
 		<tr>
-		    <th>Power</th><th>Systems</th><th>Reinforcement</th><th>Undermining</th><th>Ratio</th><th>Decay</th><th>Activity per system</th>
+		    <th>Power</th><th>Systems</th><th>Reinforcement</th><th>Undermining</th><th>R:U Ratio</th><th>Decay</th><th>D:U Ratio</th><th>Real activity per system</th>
 		</tr>
 	    </thead>
 	    <tbody>
@@ -67,6 +67,13 @@
 			    @endif
 			</td>
 			<td>{{ number_format($entry->d) }}</td>
+			<td>
+			    @if ($entry->u == 0)
+				-
+			    @else
+				{{number_format($entry->d / $entry->u, 1)}}
+			    @endif
+			</td>
 			<td>{{ number_format(($entry->r + $entry->u) / $entry->c) }}</td>
 		    </tr>
 		@endforeach
