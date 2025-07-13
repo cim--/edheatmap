@@ -51,15 +51,15 @@ class System extends Model
     {
         switch ($this->powerstate) {
         case "Exploited":
-            $baseline = 350000/4;
+            $baseline = Util::PP_EXFRAC/4;
             $rate = 2/24;
             break;
         case "Fortified":
-            $baseline = 350000+(650000/4);
+            $baseline = Util::PP_EXFRAC+(Util::PP_FOFRAC/4);
             $rate = 4/24;
             break;
         case "Stronghold":
-            $baseline = 1000000+(1000000/4);
+            $baseline = Util::PP_EXFRAC+Util::PP_FOFRAC+(Util::PP_STFRAC/4);
             $rate = 5/24;
             break;
         default:
