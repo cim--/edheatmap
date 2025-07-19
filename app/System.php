@@ -52,11 +52,12 @@ class System extends Model
         switch ($this->powerstate) {
         case "Exploited":
             $baseline = Util::PP_EXFRAC/4;
-            $rate = 2/24;
+            $rate = 2/23; // 2/24 seems too low
             break;
         case "Fortified":
             $baseline = Util::PP_EXFRAC+(Util::PP_FOFRAC/4);
             $rate = 4/24;
+            $rate *= 1.00364; // also seems marginally too low, experimental adjustment
             break;
         case "Stronghold":
             $baseline = Util::PP_EXFRAC+Util::PP_FOFRAC+(Util::PP_STFRAC/4);
