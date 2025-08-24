@@ -25,10 +25,12 @@
 
       <h2>Merit bonuses and penalties.</h2>
       
-      <p>"Preferred" activities for a Power and target system are shown on the map display and receive a 50% bonus to both personal and system merits.</p>
+      <p>"Preferred" activities for a Power and target system are shown on the map display and receive a 50% bonus to both personal merits and system control points.</p>
 
-      <p>When Undermining, the "System Strength Penalty" and "Beyond Frontline Penalty" will reduce the personal and system merits earned if either is above Standard, with the Beyond Frontline Penalty being more severe. The scale is Standard, Moderate, High, Very High. These measures do not affect Reinforcement, though Reinforcement activities are, like for like, less high scoring to start with, equivalent to roughly Moderate:Moderate as the baseline.</p>
+      <p>When Undermining, the "System Strength Penalty" and "Beyond Frontline Penalty" will reduce the personal and system scores earned if either is above Standard, with the Beyond Frontline Penalty being more severe. The scale is Standard, Moderate, High, Very High. These measures do not affect Reinforcement, though Reinforcement activities are, like for like, less high scoring to start with, equivalent to roughly Moderate:Moderate as the baseline.</p>
 
+      <p>Undermining receives a +15% bonus to merits (though not control points). Reinforcement receives a penalty varying from -75% to -5% to merits (though again not control points) depending on how reinforced the system is and whether there has been any recent undermining.</p>
+      
       <h3>Stronghold Carriers</h3>
 
       <p>Most Undermining methods do not work at all in systems containing a Stronghold Carrier. This is noted with a "-SC" (doesn't work) or "<strong>+SC</strong>" (works) entry in the Undermining column.</p>
