@@ -49,7 +49,7 @@ class System extends Model
 
     public function scopeHip($q)
     {
-	return $q->whereBetween('x', [-180, 260])
+	return $q->whereBetween('x', [-260, -180])
 		 ->whereBetween('y', [72, 152])
 		 ->whereBetween('z', [288, 368])
 		 ->whereNotNull('power');
