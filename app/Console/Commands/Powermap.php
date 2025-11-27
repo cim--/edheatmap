@@ -68,6 +68,22 @@ class Powermap extends Command
             $this->info("Generating ".$power." from ".$hq);
             $this->makeGraphViz($power, $hq);
         }
+
+	// spread calculations
+	foreach ($powers as $p => $hq) {
+	    $s = System::where('power', $p)->get();
+	    $c = $s->count();
+	    $max = [0,null,null];
+	    for ($i=0;$i<$c;$i++) {
+		for ($j=$i+1;$j<$c;$j++) {
+		    $d = $s[$i]->distance($s[$j]);
+		    if ($d > $max[0]) {
+			$max = [$d, $s[$i], $s[$j]];
+		    }
+		}
+	    }
+	    $this->line($p.": ".number_format($max[0]).": ".$max[1]->name." / ".$max[2]->name."\n");
+	}
     }
 
     public function importSystems()
@@ -87,7 +103,7 @@ class Powermap extends Command
             $system->save();
         }
     }
-        
+    
     
     public function distance (System $a, System $b) {
         return sqrt(
@@ -115,6 +131,8 @@ class Powermap extends Command
         $softlinks = [];
         $conset = 0;
         $linked = [$hq];
+	$maxdist = 0;
+	$maxdistsys = null;
         /* Prepare graph of Fortified/Stronghold systems */
         do {
             $added = [];
@@ -133,6 +151,11 @@ class Powermap extends Command
                         $softlinks[$conset][$node->id."_".$control->id] = [$node, $control];
                     }
                 }
+		$hqdist = $this->distance($control, $hq);
+		if ($hqdist > $maxdist) {
+		    $maxdist = $hqdist;
+		    $maxdistsys = $control;
+		}
             }
             if (count($added) == 0) {
                 // remove any softlinks in the current conset between already-connected systems
@@ -191,6 +214,11 @@ class Powermap extends Command
             if ($connections == 1) {
                 $singletons[$esys->name] = 1;
             }
+	    $hqdist = $this->distance($esys, $hq);
+	    if ($hqdist > $maxdist) {
+		$maxdist = $hqdist;
+		$maxdistsys = $esys;
+	    }
         }
         
         
@@ -273,7 +301,9 @@ class Powermap extends Command
         system("dot -Tpng /tmp/graph.gv > /tmp/graph.png");
 
         $powerfile = preg_replace("/[^A-Za-z-]/", "", $power);
-        
+
+	$this->line($power.": ".number_format($maxdist,1)."LY - ".$maxdistsys->name);
+	
         \Storage::disk('public')->put($weekno."/".$powerfile.".hierarchy.png", fopen("/tmp/graph.png", "r"));
     }
     

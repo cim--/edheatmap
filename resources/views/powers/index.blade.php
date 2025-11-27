@@ -16,6 +16,11 @@
 	<x-powercontrolform />
 
 	<h2>Current Powerplay Status</h2>
+	@if($hipmode)
+	    <p>Restricted to HIP 87621 fight (<a href="{{ route('power.index') }}">all systems</a>)</p>
+	@else
+	    <p>All systems (<a href="{{ route('power.hipindex') }}">HIP 87621</a>)</p>
+	@endif
 	<table>
 	    <tr>
 		<td>Status...</td>
@@ -135,7 +140,7 @@
 	<p>({{ $overreinforced }} systems reinforced more than the greatest undermining.)</p>
 
 	
-	
+	@if (!$hipmode)
 	<h2>Overall Power Maps</h2>
 
 	<p>Schematics of Power connectivity</p>
@@ -172,6 +177,6 @@
 	    @endfor
 	    </tbody>
 	</table>
-	  
+	@endif 
   </body>
 </html>

@@ -47,6 +47,14 @@ class System extends Model
         }
     }
 
+    public function scopeHip($q)
+    {
+	return $q->whereBetween('x', [-180, 260])
+		 ->whereBetween('y', [72, 152])
+		 ->whereBetween('z', [288, 368])
+		 ->whereNotNull('power');
+    }   
+
     public function setDecay()
     {
         switch ($this->powerstate) {

@@ -24,7 +24,6 @@ class PowerController extends Controller
             "Edmund Mahon" => "Gateway",
             "Felicia Winters" => "Rhea",
             "Jerome Archer" => "Nanomam",
-            //"Zachary Hudson" => "Nanomam",
             "Li Yong-Rui" => "Lembava",
             "Nakato Kaine" => "Tionisla",
             "Pranav Antal" => "Polevnic",
@@ -47,50 +46,50 @@ class PowerController extends Controller
         /* minimum CP and actually undermined are hard to tell apart,
          * so check that undermining is winning too */
         $underminedlist = System::where('powerplayweek', $week)
-                        ->where(function($q) {
-                            $q->where(function ($qe) {
-                                $qe->where('powerstate', 'Exploited')
-                                   ->where('powercps', 0)
-                                   ->whereColumn('undermining', '>', 'reinforcement');
-                            })->orWhere(function ($qe) {
-                                $qe->where('powerstate', 'Fortified')
-                                   ->where('powercps', Util::PP_EXFRAC)
-                                   ->whereColumn('undermining', '>', 'reinforcement');
-                            })->orWhere(function ($qe) {
-                                $qe->where('powerstate', 'Stronghold')
-                                   ->where('powercps', Util::PP_EXFRAC + Util::PP_STFRAC)
-                                   ->whereColumn('undermining', '>', 'reinforcement');
-                            });
-                        })->orderBy('name')->get();
+				->where(function($q) {
+				    $q->where(function ($qe) {
+					$qe->where('powerstate', 'Exploited')
+					   ->where('powercps', 0)
+					   ->whereColumn('undermining', '>', 'reinforcement');
+				    })->orWhere(function ($qe) {
+					$qe->where('powerstate', 'Fortified')
+					   ->where('powercps', Util::PP_EXFRAC)
+					   ->whereColumn('undermining', '>', 'reinforcement');
+				    })->orWhere(function ($qe) {
+					$qe->where('powerstate', 'Stronghold')
+					   ->where('powercps', Util::PP_EXFRAC + Util::PP_STFRAC)
+					   ->whereColumn('undermining', '>', 'reinforcement');
+				    });
+				})->orderBy('name')->get();
         $reinforcedlist = System::where('powerplayweek', $week)
-                        ->where(function($q) {
-                            $q->where(function ($qe) {
-                                $qe->where('powerstate', 'Exploited')
-                                   ->where('powercps', '>', Util::PP_EXFRAC);
-                            })->orWhere(function ($qe) {
-                                $qe->where('powerstate', 'Fortified')
-                                   ->where('powercps', '>', Util::PP_EXFRAC + Util::PP_FOFRAC);
-                            });
-                        })->orderBy('name')->get();
+				->where(function($q) {
+				    $q->where(function ($qe) {
+					$qe->where('powerstate', 'Exploited')
+					   ->where('powercps', '>', Util::PP_EXFRAC);
+				    })->orWhere(function ($qe) {
+					$qe->where('powerstate', 'Fortified')
+					   ->where('powercps', '>', Util::PP_EXFRAC + Util::PP_FOFRAC);
+				    });
+				})->orderBy('name')->get();
 
         $maxundermined = System::where('powerplayweek', $week)
-                       ->where('undermining', '>', 0)
-                       ->orderBy('undermining', 'desc')
-                       ->limit(10)->get();
+			       ->where('undermining', '>', 0)
+			       ->orderBy('undermining', 'desc')
+			       ->limit(10)->get();
         $overreinforced = System::where('powerplayweek', $week)
-                        ->where('reinforcement', '>', isset($maxundermined[0]) ? $maxundermined[0]->undermining : 0)
-                        ->count();
+				->where('reinforcement', '>', isset($maxundermined[0]) ? $maxundermined[0]->undermining : 0)
+				->count();
 
         $perpowerratios = System::where('power', '!=', 'Acquisition')
-                        ->whereNotNull('power')
-                        ->where('powerplayweek', $week)
-                        ->select(
-                            'power',
-                            \DB::raw('COUNT(id) c'),
-                            \DB::raw('SUM(undermining) u'),
-                            \DB::raw('SUM(reinforcement) r'),
-                            \DB::raw('SUM(ppdecay) d'),
-                        )->groupBy('power')->get();
+				->whereNotNull('power')
+				->where('powerplayweek', $week)
+				->select(
+				    'power',
+				    \DB::raw('COUNT(id) c'),
+				    \DB::raw('SUM(undermining) u'),
+				    \DB::raw('SUM(reinforcement) r'),
+				    \DB::raw('SUM(ppdecay) d'),
+				)->groupBy('power')->get();
         
         return view('powers.index', [
             'powers' => $powers,
@@ -111,6 +110,107 @@ class PowerController extends Controller
             'maxundermined' => $maxundermined,
             'overreinforced' => $overreinforced,
             'perpowerratios' => $perpowerratios,
+	    'hipmode' => false
+        ]);
+    }
+
+    public function hipIndex()
+    {
+        $powers = [
+            "Aisling Duval" => "Cubeo",
+            "Archon Delaine" => "Harma",
+            "A. Lavigny-Duval" => "Kamadhenu",
+            "Denton Patreus" => "Eotienses",
+            "Edmund Mahon" => "Gateway",
+            "Felicia Winters" => "Rhea",
+            "Jerome Archer" => "Nanomam",
+            "Li Yong-Rui" => "Lembava",
+            "Nakato Kaine" => "Tionisla",
+            "Pranav Antal" => "Polevnic",
+            "Yuri Grom" => "Clayakarma",
+            "Zemina Torval" => "Synteini"
+        ];
+        $week = $this->week(Carbon::now());
+        $reinforcement = System::where('powerplayweek', $week)->hip()->sum('reinforcement');
+        $undermining = System::where('powerplayweek', $week)->hip()->sum('undermining');
+        $decay = System::where('powerplayweek', $week)->hip()->sum('ppdecay');
+        $acquisition = System::where('powerplayweek', $week)->hip()->sum('acquisition');
+        $totalcp = System::hip()->sum('powercps');
+        $reinforcedcp = System::whereIn('powerstate', ['Fortified', 'Stronghold'])->hip()->sum('powercps');
+        $occupied = System::whereIn('powerstate', ['Exploited', 'Fortified', 'Stronghold'])->hip()->count();
+        $reinforced = System::whereIn('powerstate', ['Fortified', 'Stronghold'])->hip()->count();
+        $acquirable = System::where('power', 'Acquisition')->hip()->count();
+        $netreinforcement = System::where('powerplayweek', $week)->hip()->whereColumn('reinforcement', '>', 'undermining')->count();
+        $netundermining = System::where('powerplayweek', $week)->hip()->whereColumn('reinforcement', '<', 'undermining')->count();
+
+        /* minimum CP and actually undermined are hard to tell apart,
+         * so check that undermining is winning too */
+        $underminedlist = System::where('powerplayweek', $week)->hip()
+				->where(function($q) {
+				    $q->where(function ($qe) {
+					$qe->where('powerstate', 'Exploited')
+					   ->where('powercps', 0)
+					   ->whereColumn('undermining', '>', 'reinforcement');
+				    })->orWhere(function ($qe) {
+					$qe->where('powerstate', 'Fortified')
+					   ->where('powercps', Util::PP_EXFRAC)
+					   ->whereColumn('undermining', '>', 'reinforcement');
+				    })->orWhere(function ($qe) {
+					$qe->where('powerstate', 'Stronghold')
+					   ->where('powercps', Util::PP_EXFRAC + Util::PP_STFRAC)
+					   ->whereColumn('undermining', '>', 'reinforcement');
+				    });
+				})->orderBy('name')->get();
+        $reinforcedlist = System::where('powerplayweek', $week)->hip()
+				->where(function($q) {
+				    $q->where(function ($qe) {
+					$qe->where('powerstate', 'Exploited')
+					   ->where('powercps', '>', Util::PP_EXFRAC);
+				    })->orWhere(function ($qe) {
+					$qe->where('powerstate', 'Fortified')
+					   ->where('powercps', '>', Util::PP_EXFRAC + Util::PP_FOFRAC);
+				    });
+				})->orderBy('name')->get();
+
+        $maxundermined = System::where('powerplayweek', $week)->hip()
+			       ->where('undermining', '>', 0)
+			       ->orderBy('undermining', 'desc')
+			       ->limit(10)->get();
+        $overreinforced = System::where('powerplayweek', $week)->hip()
+				->where('reinforcement', '>', isset($maxundermined[0]) ? $maxundermined[0]->undermining : 0)
+				->count();
+
+        $perpowerratios = System::where('power', '!=', 'Acquisition')->hip()
+				->whereNotNull('power')
+				->where('powerplayweek', $week)
+				->select(
+				    'power',
+				    \DB::raw('COUNT(id) c'),
+				    \DB::raw('SUM(undermining) u'),
+				    \DB::raw('SUM(reinforcement) r'),
+				    \DB::raw('SUM(ppdecay) d'),
+				)->groupBy('power')->get();
+        
+        return view('powers.index', [
+            'powers' => $powers,
+            'week' => $week,
+            'reinforcement' => $reinforcement,
+            'undermining' => $undermining,
+            'decay' => $decay,
+            'acquisition' => $acquisition,
+            'totalcp' => $totalcp,
+            'reinforcedcp' => $reinforcedcp,
+            'occupied' => $occupied,
+            'reinforced' => $reinforced,
+            'acquirable' => $acquirable,
+            'netreinforcement' => $netreinforcement,
+            'netundermining' => $netundermining,
+            'underminedlist' => $underminedlist,
+            'reinforcedlist' => $reinforcedlist,
+            'maxundermined' => $maxundermined,
+            'overreinforced' => $overreinforced,
+            'perpowerratios' => $perpowerratios,
+	    'hipmode' => true,
         ]);
     }
 
