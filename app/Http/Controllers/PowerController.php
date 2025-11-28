@@ -60,7 +60,7 @@ class PowerController extends Controller
 					   ->where('powercps', Util::PP_EXFRAC + Util::PP_STFRAC)
 					   ->whereColumn('undermining', '>', 'reinforcement');
 				    });
-				})->orderBy('name')->get();
+				})->orderBy('power')->orderBy('name')->get();
         $reinforcedlist = System::where('powerplayweek', $week)
 				->where(function($q) {
 				    $q->where(function ($qe) {
@@ -160,7 +160,7 @@ class PowerController extends Controller
 					   ->where('powercps', Util::PP_EXFRAC + Util::PP_STFRAC)
 					   ->whereColumn('undermining', '>', 'reinforcement');
 				    });
-				})->orderBy('name')->get();
+				})->orderBy('power')->orderBy('name')->get();
         $reinforcedlist = System::where('powerplayweek', $week)->hip()
 				->where(function($q) {
 				    $q->where(function ($qe) {
