@@ -14,37 +14,25 @@
       <h1>Powerplay Tools: Reference Card</h1>
 
       <h2>Activity Requirements</h2>
-      <p>These use the "system merits" shown on the tug-of-war display on the map. Personally-earned merits for rank are usually four times greater than these (but can have different multipliers).</p>
+      <p>These use the "Control Points" shown on the tug-of-war display on the map. Personally-earned merits for rank are usually four times greater than these (but can have different multipliers).</p>
       <ul>
-	  <li>To start Acquisition Conflict: 36,000 merits</li>
-	  <li>To Acquire a system: 120,000 merits (including the above)</li>
-	  <li>To reinforce a system to Fortified from minimum Exploited: 350,000 merits</li>
-	  <li>To reinforce a system to Stronghold from minimum Fortified: 650,000 merits</li>
-	  <li>To reinforce a system to maximum Stronghold from minimum Stronghold: 1,000,000 merits</li>
+	  <li>To start Acquisition Conflict: 36,000 control points</li>
+	  <li>To Acquire a system: 120,000 control points (including the above)</li>
+	  <li>To reinforce a system to Fortified from minimum Exploited: 350,000 control points</li>
+	  <li>To reinforce a system to Stronghold from minimum Fortified: 650,000 control points</li>
+	  <li>To reinforce a system to maximum Stronghold from minimum Stronghold: 1,000,000 control points</li>
       </ul>
 
-      <h2>Merit bonuses and penalties.</h2>
-      
-      <p>"Preferred" activities for a Power and target system are shown on the map display and receive a 50% bonus to both personal merits and system control points.</p>
 
-      <p>When Undermining, the "System Strength Penalty" and "Beyond Frontline Penalty" will reduce the personal and system scores earned if either is above Standard, with the Beyond Frontline Penalty being more severe. The scale is Standard, Moderate, High, Very High. These measures do not affect Reinforcement, though Reinforcement activities are, like for like, less high scoring to start with, equivalent to roughly Moderate:Moderate as the baseline.</p>
-
-      <p>Undermining receives a +15% bonus to merits (though not control points). Reinforcement receives a penalty varying from -75% to -5% to merits (though again not control points) depending on how reinforced the system is and whether there has been any recent undermining.</p>
-      
-      <h3>Stronghold Carriers</h3>
-
-      <p>Most Undermining methods do not work at all in systems containing a Stronghold Carrier. This is noted with a "-SC" (doesn't work) or "<strong>+SC</strong>" (works) entry in the Undermining column.</p>
       
       <h2>Weekly Tasks</h2>
 
-      <p>Each player is given five tasks at the start of the Powerplay cycle, granting a significant number of bonus personal merits - though no additional effect on the control score of the system they are completed in beyond those obtained from the task activities.</p>
+      <p>Each player is given five tasks at the start of the Powerplay cycle, granting a significant number of bonus personal merits - though no additional effect on the control score of the system they are completed in beyond those obtained from the task activities. Players starting the cycle at rank 40 are higher get an additional five tasks (total ten).</p>
 
       <p>Weekly tasks may specify particular systems to be carried out in; these will normally be near to the player's start of cycle location. To reduce the chance of being given an impossible task, it is best to start the week near a border with another Power.</p>
 
       <p>Weekly tasks are mostly optional and there is no penalty for not completing them - a new set will be given the following week regardless. The initial set of five tasks given when joining a Power is required to unlock rank progression (but will never specify systems, so should always be possible).</p>
 
-      <p>Data download missions will always fail due to the activity being disabled; Escape pod missions may be completable despite the activity being disabled.</p>
-      
       <h2>System Types</h2>
       
 	<ul>
@@ -84,7 +72,7 @@
 		<tr><td>Holoscreen Hacking</td><td>Yes</td><td>Yes</td><td>Yes <strong>(+SC)</strong></td><td>No</td><td>No</td><td>Reinforcement Only (Fine elsewhere)</td><td>Requires Recon Limpet</td><td>Orbital Starports</td><td>n/a</td><td>In Acquisition and Undermining, rapidly damages reputation with station owner. In Reinforcement may not be available away from front lines.</td><td>None</td></tr>
 		<tr><td>Power Kills</td><td>Yes</td><td>Yes</td><td>Yes <strong>(+SC)</strong></td><td>No</td><td>Some</td><td>Reinforcement Only</td><td>In Undermining systems, killing ships or soldiers belonging to another Undermining Power does nothing</td><td>In Target System</td><td>n/a</td><td>In Acquisition and Undermining, kills are illegal but do not increase notoriety</td><td>None</td></tr>
 		<tr><td>Retrieve Power Goods <abbr title="Acquisition">A</abbr></td><td>Yes</td><td>No</td><td>No</td><td>Low</td><td>Yes</td><td>If not caught</td><td>Goods are in locked containers, ebreach or combination to open</td><td>Surface settlements in target system</td><td>Supporting System Power Contact</td><td></td><td>None</td></tr>
-		<tr><td>Scan Datalinks</td><td>Yes</td><td>Yes</td><td>Yes (-SC)</td><td>No</td><td>No</td><td>Yes</td><td>Scan “Ship Log Uplink” with Data Link Scanner</td><td>Non-dockable megaships</td><td>n/a</td><td>Only once per megaship per fortnight</td><td>None (unless combined with a mission to scan the same ship)</td></tr>
+		<tr><td>Scan Datalinks</td><td>Yes</td><td>Yes</td><td>Yes (-SC)</td><td>No</td><td>No</td><td>Yes</td><td>Scan “Ship Log Uplink” with Data Link Scanner</td><td>Non-dockable megaships</td><td>n/a</td><td>Only once per megaship per fortnight, requires ship log uplink to contain a message.</td><td>None (unless combined with a mission to scan the same ship)</td></tr>
 		<tr><td>Sell for large profits <abbr title="Acquisition">A</abbr></td><td>Yes</td><td>No</td><td>No</td><td>Moderate</td><td>No</td><td>Yes</td><td>Any cargo worth 40% or more profit</td><td>Station in supporting system</td><td>Station in target system</td><td>Once profit threshold met, more expensive goods are better. Undocumented location requirement.</td><td>Positive for station owner</td></tr>
 		<tr><td>Sell for large profits <abbr title="Reinforcement">R</abbr></td><td>No</td><td>Yes</td><td>No</td><td>Moderate</td><td>No</td><td>Yes</td><td>Any cargo worth 40% or more profit</td><td>Station in any system</td><td>Station in target system</td><td>Once profit threshold met, more expensive goods are better</td><td>Positive for station owner</td></tr>
 		<tr><td>Sell mined resources <abbr title="Acquisition">A</abbr></td><td>Yes</td><td>No</td><td>No</td><td>Low</td><td>No</td><td>Yes</td><td>Sell any actually mined goods, note location requirements</td><td>Mining sites in Supporting System</td><td>Station in target system</td><td>Location requirement is unusually harsh, and not documented</td><td>Positive for station owner</td></tr>
@@ -114,7 +102,60 @@
 	    </tbody>
 	</table>
 	<p>A, R and U on the end of an activity description are used to distinguish the same base activity carried out in different states, as some of the details for successful completion may vary.</p>
+	<h3>Stronghold Carriers</h3>
 
+	<p>As noted below, most Undermining methods do not work at all in systems containing a Stronghold Carrier. This is noted with a "-SC" (doesn't work) or "<strong>+SC</strong>" (works) entry in the Undermining column.</p>
+
+	<h2 id="bonuses">Merit and Control Point bonuses and penalties.</h2>
+	
+	<p>There are a very large number of bonuses and penalties to both Control Points and Merits, some of which are at least somewhat documented. All of them stack together.</p>
+
+	<p>Some of these modifiers are currently only in operation in the HIP 87621 enclave.</p>
+
+	<table>
+	    <thead>
+		<tr>
+		    <th>Name</th><th>Documented?</th><th>Affects</th><th>System Type</th><th>Direction</th><th>Magnitude</th><th>Description</th><th>HIP enclave only</th>
+		</tr>
+	    </thead>
+	    <tbody>
+		<tr><td>Ethos Bonus</td><td>Yes</td><td>CPs and Merits</td><td>All</td><td>Bonus</td><td>+50%</td><td>Benefits doing the preferred activities of your Power. Each Power and each Activity has a different list of these.</td><td>No</td></tr>
+		<tr><td>System Strength Penalty</td><td>Minimally</td><td>CPs and Merits</td><td>Undermining</td><td>Penalty</td><td>variable by system, up to -50%?</td><td>Makes system more resilient, descriptor likely covering a wider range stated on map.</td><td>No</td></tr>
+		<tr><td>Beyond Frontline Penalty</td><td>Minimally</td><td>CPs and Merits</td><td>Undermining</td><td>Penalty</td><td>variable by system, up to -50%?</td><td>For systems far from your own territory, worsens with distance, descriptor likely covering a wider range stated on map.</td><td>No</td></tr>
+		<tr><td>System Rank Penalty</td><td>No</td><td>CPs and Merits</td><td>Penalty</td><td>Undermining</td><td>Very uncertain (could be around -30%?)</td><td>Fortified and Stronghold systems are harder to Undermine than the same system in Exploited form. Unclear if this is a multiplier to System Strength Penalty or an entirely separate modifier.</td><td>No</td></tr>
+		<tr><td>Stronghold Carrier Nullification</td><td>No</td><td>CPs and Merits</td><td>Undermining</td><td>Penalty</td><td>-100%!</td><td>Most Undermining methods do not work at all if a Stronghold Carrier is present (see below).</td><td>No</td></tr>
+		<tr><td>General Undermining Bonus</td><td>Yes</td><td>Merits only</td><td>Undermining</td><td>Bonus</td><td>+15%</td><td>Granted for Undermining any system</td><td>No</td></tr>
+		<tr><td>Focused Undermining Bonus</td><td>Inconsistently</td><td>Merits only</td><td>Undermining</td><td>Bonus</td><td>+25%</td><td>Granted for Undermining daily target systems (blue crosshair icon). Always stacked with the General Bonus for +40% total</td><td>Yes</td></tr>
+		<tr><td>General Reinforcement Penalty</td><td>Yes</td><td>Merits only</td><td>Reinforcement</td><td>Penalty</td><td>-35%</td><td>Granted for Reinforcing any system</td><td>No</td></tr>
+		<tr><td>Resistance Reinforcement Modifier</td><td>Only in patch notes</td><td>Merits only</td><td>Reinforcement</td><td>Varies</td><td>Varies from -20% to +30%</td><td>Further supplement/cancellation of General Reinforcement Penalty depending on recent enemy Undermining in the system.</td><td>No</td></tr>
+		<tr><td>Overkill Reinforcement Penalty</td><td>No</td><td>Merits only</td><td>Reinforcement</td><td>Penalty</td><td>-20%</td><td>Further penalty for Reinforcing a system already above the next threshold (or a maxed Stronghold). (so -75% stacked with the General and Resistance modifiers)</td><td>No</td></tr>
+		<tr><td>Emergency Defence Bonus</td><td>Forum post only</td><td>Merits only</td><td>Reinforcement</td><td>Bonus</td><td>+35%</td><td>Cancels the General Reinforcement Penalty in systems which are net Undermined to the next state down (red ! icon). As these will often have a Resistance Modifier too the net effect is likely to be a bonus</td><td>Yes</td></tr>
+		<tr><td>Acquisition Follow-through Bonus</td><td>Patch notes only</td><td>Merits Only</td><td>Acquisition</td><td>Bonus</td><td>5000-20000 merits</td><td>Personal merits awarded at the end of the week for significant contributions to Acquiring a system lost by another Power in the previous week due at least in part to actions by this Power.</td><td>Yes</td></tr>
+		<tr><td>Assignment Completion Bonus</td><td>Yes</td><td>Merits Only</td><td>All</td><td>Bonus</td><td>2000-4000 merits</td><td>Personal merits granted in addition to the intrinsic value of the task for completing weekly assignments</td><td>No</td></tr>
+		<tr><td>Exploration Data Exchange Rate</td><td>Patch notes only</td><td>Merits Only</td><td>Reinforcement</td><td>Bonus</td><td>+50%</td><td>Exploration data pays out at a baseline of 6 merits/CP rather than the typical 4</td><td>No</td></tr>
+	    </tbody>
+	</table>
+
+	<p>So, for example, carrying out a ship scan (3 control points baseline value) as a Kaine pledge in a Reinforcement system in the HIP enclave that has recently been Undermined below the threshold will score as follows:</p>
+	<ul>
+	    <li>Control point modifier: ethos bonus at +50%</li>
+	    <li>Control points earned: 4.5, rounded up to 5.</li>
+	    <li>Merits modifier: -35% for reinforcement</li>
+	    <li>Merits modifier: +35% for emergency defence</li>
+	    <li>Merits modifier: +30% for system having had recent heavy undermining</li>
+	    <li>Standard merits multiplier: 4x</li>
+	    <li>Total merits multiplier: 5.2x, so 26 Merits earned.</li>
+	</ul>
+
+	<p>Or alternatively, as an Antal pledge carrying out a 1 million credit donation mission (baseline 27 control points) to an enemy Fortified system.</p>
+
+	<ul>
+	    <li>Control point modifiers: System Strength Penalty, System Rank Penalty and Beyond Frontline Penalty apply. Total effect highly system specific. Assuming a total of -50% for this example.</li>
+	    <li>Control points earned: 14</li>
+	    <li>Merits modifier: +15% for standard undermining</li>
+	    <li>Standard merits multiplier: 4x</li>
+	    <li>Total merits multiplier: 4.6x, so 64 Merits earned.</li>
+	</ul>
 
 	
 	<script type="text/javascript">
