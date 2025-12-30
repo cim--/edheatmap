@@ -122,7 +122,7 @@
 		<tr><td>Ethos Bonus</td><td>Yes</td><td>CPs and Merits</td><td>All</td><td>Bonus</td><td>+50%</td><td>Benefits doing the preferred activities of your Power. Each Power and each Activity has a different list of these.</td><td>No</td></tr>
 		<tr><td>System Strength Penalty</td><td>Minimally</td><td>CPs and Merits</td><td>Undermining</td><td>Penalty</td><td>variable by system, up to -50%?</td><td>Makes system more resilient, descriptor likely covering a wider range stated on map.</td><td>No</td></tr>
 		<tr><td>Beyond Frontline Penalty</td><td>Minimally</td><td>CPs and Merits</td><td>Undermining</td><td>Penalty</td><td>variable by system, up to -50%?</td><td>For systems far from your own territory, worsens with distance, descriptor likely covering a wider range stated on map.</td><td>No</td></tr>
-		<tr><td>System Rank Penalty</td><td>No</td><td>CPs and Merits</td><td>Penalty</td><td>Undermining</td><td>Very uncertain (could be around -30%?)</td><td>Fortified and Stronghold systems are harder to Undermine than the same system in Exploited form. Unclear if this is a multiplier to System Strength Penalty or an entirely separate modifier.</td><td>No</td></tr>
+		<tr><td>System Rank Penalty</td><td>No</td><td>CPs and Merits</td><td>Undermining</td><td>Penalty</td><td>Very uncertain (could be around -30%?)</td><td>Fortified and Stronghold systems are harder to Undermine than the same system in Exploited form. Unclear if this is a multiplier to System Strength Penalty or an entirely separate modifier.</td><td>No</td></tr>
 		<tr><td>Stronghold Carrier Nullification</td><td>No</td><td>CPs and Merits</td><td>Undermining</td><td>Penalty</td><td>-100%!</td><td>Most Undermining methods do not work at all if a Stronghold Carrier is present (see below).</td><td>No</td></tr>
 		<tr><td>General Undermining Bonus</td><td>Yes</td><td>Merits only</td><td>Undermining</td><td>Bonus</td><td>+15%</td><td>Granted for Undermining any system</td><td>No</td></tr>
 		<tr><td>Focused Undermining Bonus</td><td>Inconsistently</td><td>Merits only</td><td>Undermining</td><td>Bonus</td><td>+25%</td><td>Granted for Undermining daily target systems (blue crosshair icon). Always stacked with the General Bonus for +40% total</td><td>Yes</td></tr>
@@ -136,6 +136,8 @@
 	    </tbody>
 	</table>
 
+	<h3>Examples</h3>
+	
 	<p>So, for example, carrying out a ship scan (3 control points baseline value) as a Kaine pledge in a Reinforcement system in the HIP enclave that has recently been Undermined below the threshold will score as follows:</p>
 	<ul>
 	    <li>Control point modifier: ethos bonus at +50%</li>
@@ -156,6 +158,8 @@
 	    <li>Standard merits multiplier: 4x</li>
 	    <li>Total merits multiplier: 4.6x, so 64 Merits earned.</li>
 	</ul>
+
+	<p>In general, Reinforcement gets merit (but not control point) penalties, while Undermining usually gets control point penalties which are often substantially larger than its merit bonuses. Acquisition is a neutral "baseline".</p>
 
 	
 	<script type="text/javascript">
