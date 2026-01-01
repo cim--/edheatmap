@@ -6,8 +6,8 @@ use Carbon\Carbon;
 class Util
 {
 
-    public const PP_EXFRAC = 333333;
-    public const PP_FOFRAC = 666667;
+    public const PP_EXFRAC = 350000;
+    public const PP_FOFRAC = 650000;
     public const PP_STFRAC = 1000000;
     public const PP_ACFIGHT = 36000;
     public const PP_ACQUIRE = 120000;
