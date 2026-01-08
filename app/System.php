@@ -66,7 +66,7 @@ class System extends Model
         case "Fortified":
             $baseline = Util::PP_EXFRAC+(Util::PP_FOFRAC/4);
             $rate = 4/24;
-            $rate *= 1.00364; // also seems marginally too low, experimental adjustment
+            $rate *= 1.025; // experimental adjustment
             break;
         case "Stronghold":
             $baseline = Util::PP_EXFRAC+Util::PP_FOFRAC+(Util::PP_STFRAC/4);
