@@ -52,7 +52,21 @@ class System extends Model
 	return $q->whereBetween('x', [-260, -180])
 		 ->whereBetween('y', [72, 152])
 		 ->whereBetween('z', [288, 368])
-		 ->whereNotNull('power');
+		 ->whereNotNull('power')
+		 ->whereIn('faction', [
+		     "Official Clayakarma Defence Force",
+		     "Kumo Council",
+		     "Synteini Imperial Society",
+		     "Zaonce Pro-Alliance Party",
+		     "Kamadhenu Citizens' Forum",
+		     "Sirius Corporation",
+		     "Independents of Polevnic",
+		     "Workers of Gateway for Equality",
+		     "Cemiess Empire Party",
+		     "Labour of Rhea",
+		     "Eotienses Citizens' Forum",
+		     "Workers of Gateway for Equality"
+		 ]);
     }   
 
     public function setDecay()
