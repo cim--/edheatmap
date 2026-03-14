@@ -110,29 +110,27 @@
 	
 	<p>There are a very large number of bonuses and penalties to both Control Points and Merits, some of which are at least somewhat documented. All of them stack together.</p>
 
-	<p>Some of these modifiers are currently only in operation in the HIP 87621 enclave.</p>
-
 	<table>
 	    <thead>
 		<tr>
-		    <th>Name</th><th>Documented?</th><th>Affects</th><th>System Type</th><th>Direction</th><th>Magnitude</th><th>Description</th><th>HIP enclave only</th>
+		    <th>Name</th><th>Documented?</th><th>Affects</th><th>System Type</th><th>Direction</th><th>Magnitude</th><th>Description</th>
 		</tr>
 	    </thead>
 	    <tbody>
-		<tr><td>Ethos Bonus</td><td>Yes</td><td>CPs and Merits</td><td>All</td><td>Bonus</td><td>+50%</td><td>Benefits doing the preferred activities of your Power. Each Power and each Activity has a different list of these.</td><td>No</td></tr>
-		<tr><td>System Strength Penalty</td><td>Minimally</td><td>CPs and Merits</td><td>Undermining</td><td>Penalty</td><td>variable by system, up to -50%?</td><td>Makes system more resilient, descriptor likely covering a wider range stated on map.</td><td>No</td></tr>
-		<tr><td>Beyond Frontline Penalty</td><td>Minimally</td><td>CPs and Merits</td><td>Undermining</td><td>Penalty</td><td>variable by system, up to -50%?</td><td>For systems far from your own territory, worsens with distance, descriptor likely covering a wider range stated on map.</td><td>No</td></tr>
-		<tr><td>System Rank Penalty</td><td>No</td><td>CPs and Merits</td><td>Undermining</td><td>Penalty</td><td>Very uncertain (could be around -30%?)</td><td>Fortified and Stronghold systems are harder to Undermine than the same system in Exploited form. Unclear if this is a multiplier to System Strength Penalty or an entirely separate modifier.</td><td>No</td></tr>
-		<tr><td>Stronghold Carrier Nullification</td><td>No</td><td>CPs and Merits</td><td>Undermining</td><td>Penalty</td><td>-100%!</td><td>Most Undermining methods do not work at all if a Stronghold Carrier is present (see below).</td><td>No</td></tr>
-		<tr><td>General Undermining Bonus</td><td>Yes</td><td>Merits only</td><td>Undermining</td><td>Bonus</td><td>+15%</td><td>Granted for Undermining any system</td><td>No</td></tr>
-		<tr><td>Focused Undermining Bonus</td><td>Inconsistently</td><td>Merits only</td><td>Undermining</td><td>Bonus</td><td>+25%</td><td>Granted for Undermining daily target systems (blue crosshair icon). Always stacked with the General Bonus for +40% total</td><td>Yes</td></tr>
-		<tr><td>General Reinforcement Penalty</td><td>Yes</td><td>Merits only</td><td>Reinforcement</td><td>Penalty</td><td>-35%</td><td>Granted for Reinforcing any system</td><td>No</td></tr>
-		<tr><td>Resistance Reinforcement Modifier</td><td>Only in patch notes</td><td>Merits only</td><td>Reinforcement</td><td>Varies</td><td>Varies from -20% to +30%</td><td>Further supplement/cancellation of General Reinforcement Penalty depending on recent enemy Undermining in the system.</td><td>No</td></tr>
-		<tr><td>Overkill Reinforcement Penalty</td><td>No</td><td>Merits only</td><td>Reinforcement</td><td>Penalty</td><td>-20%</td><td>Further penalty for Reinforcing a system already above the next threshold (or a maxed Stronghold). (so -75% stacked with the General and Resistance modifiers)</td><td>No</td></tr>
-		<tr><td>Emergency Defence Bonus</td><td>Forum post only</td><td>Merits only</td><td>Reinforcement</td><td>Bonus</td><td>+35%</td><td>Cancels the General Reinforcement Penalty in systems which are net Undermined to the next state down (red ! icon). As these will often have a Resistance Modifier too the net effect is likely to be a bonus</td><td>Yes</td></tr>
-		<tr><td>Acquisition Follow-through Bonus</td><td>Patch notes only</td><td>Merits Only</td><td>Acquisition</td><td>Bonus</td><td>5000-20000 merits</td><td>Personal merits awarded at the end of the week for significant contributions to Acquiring a system lost by another Power in the previous week due at least in part to actions by this Power.</td><td>Yes</td></tr>
-		<tr><td>Assignment Completion Bonus</td><td>Yes</td><td>Merits Only</td><td>All</td><td>Bonus</td><td>2000-4000 merits</td><td>Personal merits granted in addition to the intrinsic value of the task for completing weekly assignments</td><td>No</td></tr>
-		<tr><td>Exploration Data Exchange Rate</td><td>Patch notes only</td><td>Merits Only</td><td>Reinforcement</td><td>Bonus</td><td>+50%</td><td>Exploration data pays out at a baseline of 6 merits/CP rather than the typical 4</td><td>No</td></tr>
+		<tr><td>Ethos Bonus</td><td>Yes</td><td>CPs and Merits</td><td>All</td><td>Bonus</td><td>+50%</td><td>Benefits doing the preferred activities of your Power. Each Power and each Activity has a different list of these.</td></tr>
+		<tr><td>System Strength Penalty</td><td>Minimally</td><td>CPs and Merits</td><td>Undermining</td><td>Penalty</td><td>variable by system, up to -50%?</td><td>Makes system more resilient, descriptor likely covering a wider range stated on map.</td></tr>
+		<tr><td>Beyond Frontline Penalty</td><td>Minimally</td><td>CPs and Merits</td><td>Undermining</td><td>Penalty</td><td>variable by system, up to -50%?</td><td>For systems far from your own territory, worsens with distance, descriptor likely covering a wider range stated on map.</td></tr>
+		<tr><td>System Rank Penalty</td><td>No</td><td>CPs and Merits</td><td>Undermining</td><td>Penalty</td><td>Very uncertain (could be around -30%?)</td><td>Fortified and Stronghold systems are harder to Undermine than the same system in Exploited form. Unclear if this is a multiplier to System Strength Penalty or an entirely separate modifier.</td></tr>
+		<tr><td>Stronghold Carrier Nullification</td><td>No</td><td>CPs and Merits</td><td>Undermining</td><td>Penalty</td><td>-100%!</td><td>Most Undermining methods do not work at all if a Stronghold Carrier is present (see below).</td></tr>
+		<tr><td>General Undermining Bonus</td><td>Yes</td><td>Merits only</td><td>Undermining</td><td>Bonus</td><td>+15%</td><td>Granted for Undermining any system</td></tr>
+		<tr><td>Focused Undermining Bonus</td><td>Inconsistently</td><td>Merits only</td><td>Undermining</td><td>Bonus</td><td>+25%</td><td>Granted for Undermining daily target systems (blue crosshair icon). Always stacked with the General Bonus for +40% total</td></tr>
+		<tr><td>General Reinforcement Penalty</td><td>Yes</td><td>Merits only</td><td>Reinforcement</td><td>Penalty</td><td>-35%</td><td>Granted for Reinforcing any system</td></tr>
+		<tr><td>Resistance Reinforcement Modifier</td><td>Only in patch notes</td><td>Merits only</td><td>Reinforcement</td><td>Varies</td><td>Varies from -20% to +30%</td><td>Further supplement/cancellation of General Reinforcement Penalty depending on recent enemy Undermining in the system.</td></tr>
+		<tr><td>Overkill Reinforcement Penalty</td><td>No</td><td>Merits only</td><td>Reinforcement</td><td>Penalty</td><td>-20%</td><td>Further penalty for Reinforcing a system already above the next threshold (or a maxed Stronghold). (so -75% stacked with the General and Resistance modifiers)</td></tr>
+		<tr><td>Emergency Defence Bonus</td><td>Inconsistently</td><td>Merits only</td><td>Reinforcement</td><td>Bonus</td><td>+35%</td><td>Cancels the General Reinforcement Penalty in systems which are net Undermined to the next state down (red ! icon). As these will often have a Resistance Modifier too the net effect is likely to be a bonus</td></tr>
+		<tr><td>Acquisition Follow-through Bonus</td><td>Patch notes only</td><td>Merits Only</td><td>Acquisition</td><td>Bonus</td><td>5000-20000 merits</td><td>Personal merits awarded at the end of the week for significant contributions to Acquiring a system lost by another Power in the previous week due at least in part to actions by this Power.</td></tr>
+		<tr><td>Assignment Completion Bonus</td><td>Yes</td><td>Merits Only</td><td>All</td><td>Bonus</td><td>2000-4000 merits</td><td>Personal merits granted in addition to the intrinsic value of the task for completing weekly assignments</td></tr>
+		<tr><td>Exploration Data Exchange Rate</td><td>Patch notes only</td><td>Merits Only</td><td>Reinforcement</td><td>Bonus</td><td>+50%</td><td>Exploration data pays out at a baseline of 6 merits/CP rather than the typical 4</td></tr>
 	    </tbody>
 	</table>
 
